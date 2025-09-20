@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>VDP Executive Summary Generator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body { background: linear-gradient(180deg,#f9fafc,#f1f5f9); font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;}
+    .card { border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .section-title { font-weight: 600; font-size: 1.1rem; margin-bottom: .75rem; color: #374151; }
+    .form-label { font-weight: 500; color: #4b5563; }
+    .btn-primary { border-radius: 10px; padding: 0.6rem 1.5rem; font-weight: 600; }
+    .header-bar { background: white; border-radius: 12px; padding: 1rem 1.5rem; box-shadow: 0 3px 8px rgba(0,0,0,0.04); position: sticky; top: 0; z-index: 10; }
+    .tip-box { background: #f3f4f6; border-radius: 10px; padding: .75rem 1rem; font-size: .9rem; margin-top: 1.5rem; }
+    .char-hint { font-size: .8rem; color: #6b7280; text-align: right; }
+  </style>
+</head>
+<body>
+<div class="container py-4">
+
+  <!-- Header -->
+  <div class="header-bar d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-file-earmark-text"></i> VDP Executive Summary Generator</h2>
+    <a href="/setup" class="btn btn-outline-primary btn-sm">
+      <i class="bi bi-building-add"></i> New Provider Profile
+    </a>
+  </div>
+
+  <!-- Form -->
+  <form method="POST" id="gen-form" novalidate>
+    <div class="card p-4 mb-4">
+      <div class="section-title"><i class="bi bi-building"></i> Provider & Client Info</div>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Select Provider <span class="text-danger">*</span></label>
+          <select class="form-select provider-select" name="company_id" required>
+            {% for id, name, industry in companies %}
+              <option value="{{ id }}" {% if default_company_id and default_company_id|int == id %}selected{% endif %}>
+                {{ name }} — {{ industry }}
+              </option>
+            {% else %}
+              <option disabled>No providers found</option>
+            {% endfor %}
+          </select>
+          <div class="invalid-feedback">Please choose a provider.</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Client Name <span class="text-danger">*</span></label>
+          <input class="form-control" name="client_name" required placeholder="e.g., Shekhar Hospital">
+          <div class="invalid-feedback">Client name is required.</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Client Industry <span class="text-danger">*</span></label>
+          <input class="form-control" name="client_industry" required placeholder="e.g., Multispecialty healthcare and clinic">
+          <div class="invalid-feedback">Client industry is required.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-4 mb-4">
+      <div class="section-title"><i class="bi bi-flag"></i> Client Goals & Proposal</div>
+      <div class="mb-3">
+        <label class="form-label">Client Goals / Challenges <span class="text-danger">*</span></label>
+        <textarea class="form-control" name="client_goals" rows="3" required placeholder="Summarize goals or paste RFP snippet..."></textarea>
+        <div class="char-hint">Tip: Include verifiable snippets or links for best accuracy.</div>
+        <div class="invalid-feedback">Please provide client goals/challenges.</div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Proposed Solutions / Modules <span class="text-danger">*</span></label>
+          <textarea class="form-control" name="proposal_modules" rows="2" required placeholder="e.g., Zoho-based PMS, AI voice agent for appointments..."></textarea>
+          <div class="invalid-feedback">Please describe the proposed modules.</div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Execution Model</label>
+          <textarea class="form-control" name="execution_model" rows="2" placeholder="e.g., Phased rollout, governance cadence, BOT model..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+  <label for="recipient_role">Recipient Role / Position</label>
+  <select class="form-control" name="recipient_role" required>
+    <option value="">-- Select Role --</option>
+    <option value="CEO">CEO</option>
+    <option value="CFO">CFO</option>
+    <option value="CIO/CTO">CIO / CTO</option>
+    <option value="CMO">CMO / Marketing Head</option>
+    <option value="Head of Sales">Head of Sales</option>
+    <option value="Operations Director">Operations Director</option>
+    <option value="Other">Other</option>
+  </select>
+</div>
+
+    <div class="card p-4 mb-4">
+      <div class="section-title"><i class="bi bi-pencil-square"></i> Additional Notes</div>
+      <textarea class="form-control" name="extra_notes" rows="2" placeholder="Links, internal notes, constraints, KPIs..."></textarea>
+    </div>
+
+    <div class="text-end">
+      <button class="btn btn-primary"><i class="bi bi-magic"></i> Generate Executive Summary</button>
+    </div>
+  </form>
+
+  <div class="tip-box">
+    <i class="bi bi-lightbulb"></i> Tip: Paste verified client text (like RFP snippets or website links) in goals to enable quantified, proof-driven language.
+  </div>
+
+</div>
+
+<script>
+(() => {
+  const form = document.getElementById('gen-form');
+  form.addEventListener('submit', (e) => {
+    if (!form.checkValidity()) {
+      e.preventDefault(); e.stopPropagation();
+    }
+    form.classList.add('was-validated');
+  }, false);
+})();
+</script>
+</body>
+</html>

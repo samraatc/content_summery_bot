@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup Provider Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f5f7fa; }
+    .card { border-radius: 12px; }
+  </style>
+</head>
+<body>
+<div class="container mt-5">
+  <div class="card shadow-sm p-4">
+    <h2 class="mb-4 text-center">Create Provider Profile</h2>
+
+    <form method="POST" novalidate>
+      <div class="mb-3">
+        <label class="form-label">Company Name <span class="text-danger">*</span></label>
+        <input type="text" name="name" class="form-control" required>
+        <div class="form-text">This will appear in headings like “Why &lt;Company&gt;”.</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Industry</label>
+        <input type="text" name="industry" class="form-control" placeholder="e.g., Healthcare, NI, GovTech">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Services Offered</label>
+        <textarea name="services" class="form-control" rows="3" placeholder="e.g., Zoho implementations, AI voice agent, NOC, BOT model..."></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Key Differentiators</label>
+        <textarea name="differentiators" class="form-control" rows="3" placeholder="e.g., Governance framework, risk mitigation, security-first, references..."></textarea>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Contact Email</label>
+          <input type="email" name="contact_email" class="form-control" placeholder="name@company.com">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Contact Phone</label>
+          <input type="text" name="contact_phone" class="form-control" placeholder="+91 ...">
+        </div>
+      </div>
+
+      <div class="mb-3 mt-3">
+        <label class="form-label">Website Link</label>
+        <input type="url" name="website" class="form-control" placeholder="https://example.com">
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Additional Notes</label>
+        <textarea name="notes" class="form-control" rows="3" placeholder="Certifications, awards, testimonials, notable deployments..."></textarea>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary px-4">Save Profile</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary px-4">Back</a>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

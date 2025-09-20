@@ -1,0 +1,4243 @@
+test data:Executive Summary 2 – Renewable Energy Project
+
+GreenVolt Energy is establishing a 100 MW solar power plant in Rajasthan with an expected completion by 2027. The project leverages high-efficiency photovoltaic panels and AI-based grid optimization to reduce costs by 18% compared to conventional plants. The investment requirement is $75M with an estimated ROI of 12% annually. The initiative will also offset 150,000 tons of CO2 emissions per year.
+
+Executive Summary 3 – Healthcare App
+
+MediConnect is a mobile-first telemedicine app designed to improve rural healthcare access in Karnataka. It enables video consultations, e-prescriptions, and integration with diagnostic labs. Beta testing with 5,000 users showed a 40% reduction in patient wait times. The company seeks $2M in Series A funding to expand coverage across South India by 2026.
+
+Executive Summary 4 – FinTech SaaS
+
+FinWise is a SaaS platform offering AI-driven financial planning for SMBs. It automates cash flow projections, expense categorization, and tax compliance. The platform currently has 300 paying clients and generated $450K ARR in 2024. We are seeking $5M in growth capital to scale globally and integrate advanced credit-risk analytics by 2026.
+
+
+----------version 1---------
+import os
+import google.generativeai as genai
+
+# ====== CONFIG ======
+API_KEY = "AIzaSyAtHwQJfP3_eSWufsCLy27oMPHSNFIP-rU"  # <-- Replace with your Gemini API key
+genai.configure(api_key=API_KEY)
+
+# ====== USER CONTENT ======
+user_content = """
+Company: Acme HealthTech
+Industry: Healthcare SaaS
+Context: They want to pitch a new AI-driven patient engagement platform
+Target Audience: Hospital executives and investors
+Tone: Persuasive but professional
+Target Word Count: 1200
+"""
+
+# ====== STRUCTURED PROMPT ======
+prompt_template = f"""
+You are an experienced business proposal writer. Produce a polished executive summary that is consistent, persuasive, and professional.
+
+LENGTH:
+~1200 words (±10%). Keep it tight and impactful.
+
+TONE:
+Persuasive but professional; confident but not pushy.
+
+OUTPUT RULES (STRICT):
+- Output in Markdown.
+- Use EXACTLY the following headings and order. Do NOT add extra sections, disclaimers, or pre/post text.
+- Use clear paragraphs and bullets where helpful.
+- If critical info is missing, infer sensibly or use [TBD] placeholders.
+
+FORMAT (COPY EXACTLY):
+# Executive Summary
+
+## 1. Introduction
+- Provide a clear, 2–3 sentence overview framed around the user's context.
+
+## 2. Problem / Opportunity
+- Clarify the pain points or opportunity space with 2–4 concise bullets.
+
+## 3. Proposed Solution
+- Describe the proposed project/solution and how it works.
+- Include key components, features, or phases.
+
+## 4. Value Proposition & ROI
+- Quantify expected outcomes where possible (e.g., % savings, timeline, KPIs).
+- Use 3–5 bullets for benefits.
+
+## 5. Implementation Plan & Timeline
+- High-level plan (phases/milestones) and indicative timeline.
+
+## 6. Risks & Mitigations
+- List 3–4 material risks with corresponding mitigations.
+
+## 7. Why Choose Us
+- Summarize differentiators (experience, partnerships, track record, support).
+
+## 8. Call to Action
+- Clear next step (pilot/demo/meeting) and contact line.
+
+USER CONTENT (SOURCE MATERIAL):
+{user_content}
+""".strip()
+
+# ====== CALL GEMINI ======
+model = genai.GenerativeModel("gemini-1.5-flash")  # or gemini-1.5-pro if you want higher quality
+response = model.generate_content(prompt_template)
+
+# ====== PRINT ======
+print(response.text)
+
+-------version 2------
+import google.generativeai as genai
+
+# ====== CONFIG ======
+API_KEY = "AIzaSyAtHwQJfP3_eSWufsCLy27oMPHSNFIP-rU"  # <-- Replace with your Gemini API key
+genai.configure(api_key=API_KEY)
+
+# ====== USER CONTENT ======
+user_content = """
+Company: Acme HealthTech
+Industry: Healthcare SaaS
+Context: They want to pitch a new AI-driven patient engagement platform
+Target Audience: Hospital executives and investors
+Tone: Persuasive but professional
+Target Word Count: 1200
+"""
+
+# ====== STRUCTURED PROMPT BASE ======
+base_prompt = f"""
+You are an experienced business proposal writer. Produce a polished executive summary that is consistent, persuasive, and professional.
+
+LENGTH:
+~1200 words (±10%). Keep it tight and impactful.
+
+TONE:
+Persuasive but professional; confident but not pushy.
+
+OUTPUT RULES (STRICT):
+- Output in Markdown.
+- Use EXACTLY the following headings and order. Do NOT add extra sections, disclaimers, or pre/post text.
+- Use clear paragraphs and bullets where helpful.
+- If critical info is missing, infer sensibly or use [TBD] placeholders.
+
+
+FORMAT (COPY EXACTLY):
+# Executive Summary
+
+## 1. Introduction
+- Provide a clear, 2–3 sentence overview framed around the user's context.
+
+## 2. Problem / Opportunity
+- Clarify the pain points or opportunity space with 2–4 concise bullets.
+
+## 3. Proposed Solution
+- Describe the proposed project/solution and how it works.
+- Include key components, features, or phases.
+
+## 4. Value Proposition & ROI
+- Quantify expected outcomes where possible (e.g., % savings, timeline, KPIs).
+- Use 3–5 bullets for benefits.
+
+## 5. Implementation Plan & Timeline
+- High-level plan (phases/milestones) and indicative timeline.
+
+## 6. Risks & Mitigations
+- List 3–4 material risks with corresponding mitigations.
+
+## 7. Why Choose Us
+- Summarize differentiators (experience, partnerships, track record, support).
+
+## 8. Call to Action
+- Clear next step (pilot/demo/meeting) and contact line.
+
+USER CONTENT (SOURCE MATERIAL):
+{user_content}
+""".strip()
+
+# ====== CALL GEMINI FUNCTION ======
+def generate_summary(extra_instructions=""):
+    final_prompt = base_prompt
+    if extra_instructions:
+        final_prompt += f"\n\n---\nADDITIONAL USER INSTRUCTIONS:\n{extra_instructions}\n"
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    response = model.generate_content(final_prompt)
+    return response.text
+
+# ====== LOOP FOR FEEDBACK ======
+print("Generating first draft...\n")
+summary = generate_summary()
+print(summary)
+
+while True:
+    user_feedback = input("\nDo you want to make any changes? (Type instructions or 'yes print' to finish): ").strip().lower()
+    
+    if user_feedback in ["yes print", "done", "ok", "final"]:
+        print("\n✅ Final Executive Summary:\n")
+        print(summary)
+        break
+    elif user_feedback:
+        print("\n🔄 Regenerating with your requested changes...\n")
+        summary = generate_summary(user_feedback)
+        print(summary)
+    else:
+        print("No input detected. Please provide instructions or type 'yes print' to finish.")
+        
+
+      -------------------  VERSION 2-Minimal UI but with iterated prompts------------------
+
+app.py      
+
+from flask import Flask, render_template, request, send_file, session, redirect, url_for
+import google.generativeai as genai
+import os
+import tempfile
+
+# Flask setup
+app = Flask(__name__)
+app.secret_key = "secret123"  # Needed for session storage
+
+# Gemini API setup
+GOOGLE_API_KEY="AIzaSyAtHwQJfP3_eSWufsCLy27oMPHSNFIP-rU"
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+model = genai.GenerativeModel("gemini-1.5-flash")
+
+# Base structured prompt template
+base_prompt = """
+Write an **Executive Summary** in structured markdown format with the following headings:
+- Introduction
+- Problem Statement
+- Proposed Solution
+- Expected ROI
+- Conclusion
+"""
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        # Collect user input
+        user_prompt = request.form["user_prompt"]
+        tone = request.form["tone"]
+        length = request.form["length"]
+
+        # Save to session
+        session["user_prompt"] = user_prompt
+        session["tone"] = tone
+        session["length"] = length
+
+        # First draft generation
+        draft_prompt = f"{base_prompt}\nTone: {tone}\nWord length: {length}\n\nUser Input: {user_prompt}"
+        response = model.generate_content(draft_prompt)
+
+        session["draft"] = response.text
+        return redirect(url_for("result"))
+
+    return render_template("index.html")
+
+@app.route("/result", methods=["GET", "POST"])
+def result():
+    draft = session.get("draft", "")
+    if request.method == "POST":
+        if "refine" in request.form:
+            refine_input = request.form["refine_prompt"]
+
+            # Append refinement to original prompt
+            refine_prompt = (
+                f"{base_prompt}\nTone: {session['tone']}\nWord length: {session['length']}\n"
+                f"User Input: {session['user_prompt']}\n\n"
+                f"Additional instructions: {refine_input}"
+            )
+
+            response = model.generate_content(refine_prompt)
+            session["draft"] = response.text
+            draft = session["draft"]
+
+        elif "download" in request.form:
+            # Save draft to a temp file
+            tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".txt")
+            tmp_file.write(session["draft"].encode("utf-8"))
+            tmp_file.close()
+            return send_file(tmp_file.name, as_attachment=True, download_name="output.txt")
+
+    return render_template("result.html", draft=draft)
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+index.html
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Proposal Generator</title>
+</head>
+<body>
+    <h2>Business Proposal Executive Summary Generator</h2>
+    <form method="POST">
+        <label>Enter your proposal details:</label><br>
+        <textarea name="user_prompt" rows="6" cols="60" required></textarea><br><br>
+
+        <label>Select Tone:</label>
+        <select name="tone">
+            <option>Formal</option>
+            <option>Persuasive</option>
+            <option>Concise</option>
+            <option>Friendly</option>
+        </select><br><br>
+
+        <label>Word Count (500–1500):</label>
+        <input type="number" name="length" min="500" max="1500" value="1000"><br><br>
+
+        <button type="submit">Generate First Draft</button>
+    </form>
+</body>
+</html>
+
+result.html
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generated Proposal</title>
+</head>
+<body>
+    <h2>Generated Draft</h2>
+    <div style="white-space: pre-wrap; border:1px solid #ccc; padding:10px;">
+        {{ draft }}
+    </div>
+
+    <h3>Refine Draft</h3>
+    <form method="POST">
+        <textarea name="refine_prompt" rows="4" cols="60" placeholder="Enter improvements (e.g., make it shorter, emphasize ROI)..."></textarea><br><br>
+        <button type="submit" name="refine">Edit Prompt & Regenerate</button>
+        <button type="submit" name="download">Download as TXT</button>
+    </form>
+</body>
+</html>
+
+---------------------------version 3(with html and css )---------
+app1.py 
+
+from flask import Flask, render_template, request, send_file, session, redirect, url_for
+import google.generativeai as genai
+import os
+import tempfile
+from docx import Document
+from docx.shared import Pt
+# Flask setup
+app = Flask(__name__)
+app.secret_key = "secret123"  # Needed for session storage
+
+# Gemini API setup
+GOOGLE_API_KEY="AIzaSyAtHwQJfP3_eSWufsCLy27oMPHSNFIP-rU"
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+model = genai.GenerativeModel("gemini-1.5-flash")
+
+# Base structured prompt template
+base_prompt = """
+Generate a professional VDP Executive Summary in 100–150 words. Follow the structure and formatting below. Use only verified client insights (from their RFP, official website, or validated research). Do not assume or invent client priorities. Tone must be factual, professional, and client-centric.
+
+Headings and format:
+
+Case for Change / Our Understanding of Your Goals (Short paragraph, 3–4 sentences) – Here only tell baout what are product solves , nevcer assume the effciency of teh clients system . 
+Focus only on confirmed issues and goals, such as efficiency, employee experience, and reduced admin burden.
+
+Our Approach to Meeting Your Goals (1 short paragraph + up to 3 bullets) – State our value proposition. Present differentiators directly tied to client needs. Use verified solution elements (e.g., Zoho modules).
+
+Business Value (3–5 bullets) – Map benefits to client’s business issues. Focus on measurable, tangible outcomes such as cost reduction, faster time-to-hire, improved accuracy, scalability. Include placeholders for quantifiable metrics.
+
+Why GBT (2–3 bullets or short paragraph) – Provide fact-based proof points, industry experience, or testimonials. Emphasize relevant track record in financial services and ongoing support. Avoid generic claims.
+
+Ensure the final output is clear, structured, and completely free of unverified assumptions.And also dont give any assumptions or examples , becuase we will look into that part
+
+"""
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        # Collect user input
+        user_prompt = request.form["user_prompt"]
+        tone = ", ".join(request.form.getlist("tone"))
+        length = request.form["length"]
+
+        # Save to session
+        session["user_prompt"] = user_prompt
+        session["tone"] = tone
+        session["length"] = length
+
+        # First draft generation
+        draft_prompt = f"{base_prompt}\nTone: {tone}\nWord length: {length}\n\nUser Input: {user_prompt}"
+        response = model.generate_content(draft_prompt)
+
+        session["draft"] = response.text
+        return redirect(url_for("result"))
+
+    return render_template("index.html")
+
+@app.route("/result", methods=["GET", "POST"])
+def result():
+    draft = session.get("draft", "")
+
+    if request.method == "POST":
+        if "refine" in request.form:
+            refine_input = request.form["refine_prompt"]
+
+            refine_prompt = (
+                f"{base_prompt}\nTone: {session['tone']}\nWord length: {session['length']}\n"
+                f"User Input: {session['user_prompt']}\n\n"
+                f"Additional instructions: {refine_input}"
+            )
+
+            response = model.generate_content(refine_prompt)
+            session["draft"] = response.text
+            draft = session["draft"]
+
+        elif "download" in request.form:
+    # Save draft as DOCX instead of TXT
+         doc = Document()
+    
+    # Add main heading
+         doc.add_heading("Executive Summary", level=0)
+
+    # Process the session draft text
+         lines = session["draft"].split("\n")
+         for line in lines:
+          stripped = line.strip()
+          if not stripped:
+            continue  # skip empty lines
+
+        # Recognize only your defined headings
+          if stripped.lower().startswith("executive summary"):
+            doc.add_heading(stripped, level=1)
+          elif stripped.lower().startswith("problem statement"):
+            doc.add_heading(stripped, level=1)
+          elif stripped.lower().startswith("solution overview"):
+            doc.add_heading(stripped, level=1)
+          elif stripped.lower().startswith("key features"):
+            doc.add_heading(stripped, level=1)
+          elif stripped.lower().startswith("value proposition"):
+            doc.add_heading(stripped, level=1)
+          elif stripped.lower().startswith("conclusion"):
+            doc.add_heading(stripped, level=1)
+
+        # Handle bullet points
+          elif stripped.startswith("- ") or stripped.startswith("• "):
+            doc.add_paragraph(stripped[2:], style="List Bullet")
+          else:
+            doc.add_paragraph(stripped)
+
+    # Save temporary file for download
+         tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".docx")
+         doc.save(tmp_file.name)
+         tmp_file.close()
+
+         return send_file(tmp_file.name, as_attachment=True, download_name="output_format.docx")
+    
+        elif "finish" in request.form:   # <-- NEW BRANCH
+            session.clear()              # clear old draft
+            return redirect(url_for("index"))
+
+    # Fallback return for both GET and after refine
+    return render_template("result.html", draft=draft)
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposal Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen flex items-center justify-center p-6">
+
+  <div class="bg-white shadow-xl rounded-2xl p-8 max-w-2xl w-full">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+      Business Proposal Executive Summary Generator
+    </h2>
+
+    <form method="POST" class="space-y-6">
+      
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Enter your proposal details:</label>
+        <textarea name="user_prompt" rows="6" class="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none" required></textarea>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Select Tone(s):</label>
+        <select name="tone" multiple class="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <option>Formal</option>
+          <option>Persuasive</option>
+          <option>Concise</option>
+          <option>Friendly</option>
+        </select>
+        <p class="text-sm text-gray-500 mt-1">Hold Ctrl (Windows) or Cmd (Mac) to select multiple tones</p>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Word Count (500–1500):</label>
+        <input type="number" name="length" min="500" max="1500" value="1000" 
+               class="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+      </div>
+
+      <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition">
+        Generate First Draft
+      </button>
+    </form>
+  </div>
+
+</body>
+</html>
+
+
+result.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generated Proposal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen flex items-center justify-center p-6">
+
+  <div class="bg-white shadow-xl rounded-2xl p-8 max-w-3xl w-full">
+    
+    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Generated Draft</h2>
+
+    <div class="border border-gray-300 rounded-xl p-5 bg-gray-50 whitespace-pre-wrap text-gray-700 mb-8">
+      {{ draft }}
+    </div>
+
+    <h3 class="text-xl font-semibold text-gray-800 mb-4">Refine Draft</h3>
+
+    <form method="POST" class="space-y-4">
+      <textarea name="refine_prompt" rows="4" placeholder="Enter improvements (e.g., make it shorter, emphasize ROI)..."
+        class="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+
+      <div class="flex flex-wrap gap-4">
+        <button type="submit" name="refine" class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition">Edit & Regenerate</button>
+        <button type="submit" name="finish" class="flex-1 bg-gray-600 text-white py-3 rounded-xl font-semibold hover:bg-gray-700 transition">Go Home</button>
+        <button type="submit" name="download" class="flex-1 bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition">Download Docs</button>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>
+
+-------------------version with vdp pipeline ---------
+from flask import Flask, render_template, request, send_file, session, redirect, url_for
+import google.generativeai as genai
+import os
+import tempfile
+from docx import Document
+from docx.shared import Pt
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+# Flask setup
+app = Flask(__name__)
+app.secret_key = "secret123"  # Needed for session storage
+
+# Gemini API setup
+GOOGLE_API_KEY = ""
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+model = genai.GenerativeModel("gemini-1.5-flash")
+
+# Config: whether to show VSP in DOCX
+SHOW_VSP_IN_DOCX = True
+
+# Value Selling Prompt
+value_selling_prompt_template = """
+Generate structured Value Selling Points for the client. 
+Answer the following based only on verified data (RFP, official site, or validated research):
+
+1. Case for Change – Why is this proposition necessary? What compelling issues exist now?
+2. Our Understanding of Goals – What specific goals has the client set out?
+3. Our Approach – What value proposition do we bring to meet these goals?
+4. Business Value – What measurable benefits and outcomes are expected?
+5. Solution Overview – What does our solution do and how does it create value?
+6. How We Will Deliver – What roadmap or delivery approach reduces risk?
+7. Why GBT – What differentiates GBT’s capabilities in this engagement?
+
+Keep it clear and bullet-based where applicable.
+"""
+
+# Executive Summary Prompt
+exec_summary_prompt_template = """
+Generate a professional Executive Summary in 100–150 words.
+Follow the exact structure and formatting below. Use only verified client insights (from RFP, official site, or validated research). 
+Do not assume or invent client priorities. Tone must be factual, professional, and client-centric.
+
+The structure MUST be:
+
+Intro (Short paragraph, 3–4 sentences) –
+Provide context about the client’s current position, their verified business priorities, 
+and how our proposal addresses them. Keep it factual.
+
+Key Business Priorities (3–4 bullets) –
+List the top priorities provided by the client or verified sources.
+
+Proposed Solutions (3–5 bullets, grouped by modules) –
+Outline the solutions we offer and the benefits directly tied to client goals.
+
+Content Creation / Market Positioning (optional, 2–4 bullets) –
+If relevant, summarize content/branding support, campaigns, or positioning that enhance client engagement.
+
+Execution and Delivery (2–3 bullets) –
+Describe the roadmap, timeline, scalability, and measurable business outcomes.
+
+Closing Call-to-Action (Short paragraph) –
+End with urgency, long-term competitive advantage, and collaboration tone. No generic promises.
+
+Value Selling Points:
+{vsp}
+
+Client Context:
+{context}
+"""
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        user_prompt = request.form["user_prompt"]
+        tone = ", ".join(request.form.getlist("tone"))
+        length = request.form["length"]
+
+        session["inputs"] = user_prompt
+        session["tone"] = tone
+        session["length"] = length
+
+        # Step 1: Generate Value Selling Points (hidden)
+        vsp_prompt = f"{value_selling_prompt_template}\n\nClient Context: {user_prompt}"
+        vsp_response = model.generate_content(vsp_prompt)
+        value_points = vsp_response.text.strip()
+        session["value_points"] = value_points
+
+        # Step 2: Generate Executive Summary
+        exec_prompt = exec_summary_prompt_template.format(
+            vsp=value_points, context=user_prompt
+        )
+        response = model.generate_content(exec_prompt)
+
+        session["draft"] = response.text
+        return redirect(url_for("result"))
+
+    return render_template("index.html")
+
+@app.route("/result", methods=["GET", "POST"])
+def result():
+    draft = session.get("draft", "")
+
+    if request.method == "POST":
+        if "refine" in request.form:
+            refine_input = request.form["refine_prompt"]
+            refine_prompt = (
+                f"{exec_summary_prompt_template}\nTone: {session['tone']}\nWord length: {session['length']}\n"
+                f"Client Context: {session['inputs']}\n\n"
+                f"Value Selling Points: {session['value_points']}\n\n"
+                f"Additional instructions: {refine_input}"
+            )
+            response = model.generate_content(refine_prompt)
+            session["draft"] = response.text
+            draft = session["draft"]
+
+        elif "download" in request.form:
+            doc = Document()
+            doc.add_heading("Executive Summary", level=0)
+
+            lines = session["draft"].split("\n")
+            for line in lines:
+                stripped = line.strip()
+                if not stripped:
+                    continue
+
+                # Recognize defined headings
+                if stripped.lower().startswith("intro"):
+                    doc.add_heading("Intro", level=1)
+                elif stripped.lower().startswith("key business priorities"):
+                    doc.add_heading("Key Business Priorities", level=1)
+                elif stripped.lower().startswith("proposed solutions"):
+                    doc.add_heading("Proposed Solutions", level=1)
+                elif stripped.lower().startswith("content creation"):
+                    doc.add_heading("Content Creation / Market Positioning", level=1)
+                elif stripped.lower().startswith("execution and delivery"):
+                    doc.add_heading("Execution and Delivery", level=1)
+                elif stripped.lower().startswith("closing call-to-action"):
+                    doc.add_heading("Closing Call-to-Action", level=1)
+
+                # Handle bullet points
+                elif stripped.startswith("- ") or stripped.startswith("• "):
+                    para = doc.add_paragraph(stripped[2:], style="List Bullet")
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    para.paragraph_format.space_after = Pt(12)
+                else:
+                    para = doc.add_paragraph(stripped)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    para.paragraph_format.space_after = Pt(12)
+
+            # Optionally include Value Selling Points in DOCX
+            if SHOW_VSP_IN_DOCX:
+                doc.add_heading("Value Selling Points (Internal Reference)", level=1)
+                for line in session["value_points"].split("\n"):
+                    stripped = line.strip()
+                    if not stripped:
+                        continue
+                    if stripped.startswith("- ") or stripped.startswith("• "):
+                        para = doc.add_paragraph(stripped[2:], style="List Bullet")
+                    else:
+                        para = doc.add_paragraph(stripped)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    para.paragraph_format.space_after = Pt(12)
+
+            tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".docx")
+            doc.save(tmp_file.name)
+            tmp_file.close()
+            return send_file(tmp_file.name, as_attachment=True, download_name="Executive_Summary.docx")
+
+        elif "finish" in request.form:
+            session.clear()
+            return redirect(url_for("index"))
+
+    return render_template("result.html", draft=draft, vsp=session.get("value_points", ""), context=session.get("inputs", ""))
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+----------------prompt for vdp generation----
+Generate a professional Executive Summary .
+Use only verified client insights (from RFP, official site, or validated research).
+Do not assume or invent client priorities. Tone must be factual, professional, and client-centric.
+take this also as an input:
+Value Selling Points:
+{vsp}
+
+Client Context:
+{context}
+
+Important: Do NOT use Markdown formatting like **bold**, ## headings, or asterisks. 
+Return clean plain text with clear headings and bullet points.
+
+The structure MUST be exactly in this order:
+Intrduction (2-3 lines) : about the solution and this proposal 
+
+Our Understanding of your Goals –
+Demonstrate our understanding of the client’s objectives, challenges, and value drivers.
+
+Our Approach to Meeting Your Goals –
+State our value proposition, what we will do, and key differentiators.
+
+Business Value for the Client –
+Map the measurable business benefits (revenue, cost savings, faster time to market, etc.) 
+directly to their issues.
+
+Solution Overview –
+Summarize the solution, what it does, and how it delivers value. Keep it high-level.
+
+ How We Will Deliver –
+Outline our unique solution, roadmap, delivery approach, and how risk is reduced.
+
+Why GBT –
+Provide proof points, testimonials, and differentiators showing why GBT is the best choice.
+
+---------------------result.html----------
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Executive Summary Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h2 class="mb-4">Generated Executive Summary</h2>
+
+    <!-- Executive Summary -->
+    <div class="card p-4 shadow-sm mb-4">
+        <h5>Executive Summary</h5>
+        <pre style="white-space: pre-wrap; font-size: 1rem;">{{ draft }}</pre>
+    </div>
+
+    <!-- Value Selling Points -->
+   <div class="card p-4 shadow-sm mb-4">
+        <h5>Value Selling Points (hidden from client)</h5>
+        <pre style="white-space: pre-wrap; font-size: 1rem;">{{ vsp }}</pre>
+    </div>
+
+    <!-- Client Context -->
+    <div class="card p-4 shadow-sm mb-4">
+        <h5>Client Context</h5>
+        <pre style="white-space: pre-wrap; font-size: 1rem;">{{ context }}</pre>
+    </div>
+
+    <!-- Action Form -->
+    <form method="POST" class="mt-4">
+        <div class="mb-3">
+            <label class="form-label">Refine Output</label>
+            <textarea name="refine_prompt" class="form-control" rows="3"></textarea>
+        </div>
+        <button type="submit" name="refine" class="btn btn-secondary">Refine</button>
+        <button type="submit" name="download" class="btn btn-success">Download DOCX</button>
+        <button type="submit" name="finish" class="btn btn-danger">Start Over</button>
+    </form>
+</div>
+</body>
+</html>
+
+-----------------------app.py for multiple companies----------------
+
+from flask import Flask, render_template, request, send_file, session, redirect, url_for, flash
+import sqlite3
+import os
+import tempfile
+import re
+from docx import Document
+from docx.shared import Pt
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+# OpenAI Python client
+from openai import OpenAI
+
+# ----------------- Config -----------------
+DB_PATH = "companies.db"
+APP_SECRET = os.getenv("FLASK_SECRET")
+HIDE_VSP_FROM_DOCX = True         # VSP will not be included in downloaded DOCX
+VSP_VISIBLE_IN_UI = False         # VSP will not be shown in UI
+OPENAI_MODEL = "gpt-4o"           # change if needed
+TEMPERATURE_VSP = 0.6
+MAX_TOKENS_VSP = 1000
+TEMPERATURE_EXEC = 0.7
+MAX_TOKENS_EXEC = 1500
+
+# ----------------- Flask -----------------
+app = Flask(__name__)
+app.secret_key = APP_SECRET
+
+# ----------------- OpenAI -----------------
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"),
+                organization=os.getenv("OPENAI_ORG_ID"))
+
+# ----------------- In-memory storage -----------------
+# session_id => {"client_context": str, "vsp": str, "draft": str, "company_id": int}
+storage = {}
+
+# ----------------- DB Helpers -----------------
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS companies (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            industry TEXT,
+            services TEXT,
+            differentiators TEXT,
+            contact_email TEXT,
+            contact_phone TEXT,
+            notes TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+def insert_company(profile):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO companies (name, industry, services, differentiators, contact_email, contact_phone, notes) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        (profile.get("name"), profile.get("industry"), profile.get("services"),
+         profile.get("differentiators"), profile.get("contact_email"), profile.get("contact_phone"),
+         profile.get("notes"))
+    )
+    conn.commit()
+    company_id = cur.lastrowid
+    conn.close()
+    return company_id
+
+def get_companies():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("SELECT id, name, industry FROM companies ORDER BY name")
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+def get_company(company_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("SELECT id, name, industry, services, differentiators, contact_email, contact_phone, notes FROM companies WHERE id = ?", (company_id,))
+    row = cur.fetchone()
+    conn.close()
+    if not row:
+        return None
+    keys = ["id", "name", "industry", "services", "differentiators", "contact_email", "contact_phone", "notes"]
+    return dict(zip(keys, row))
+
+# ----------------- Text cleaning -----------------
+def clean_text_block(text: str) -> str:
+    if not text:
+        return ""
+    text = str(text)
+    text = re.sub(r"\*\*(.*?)\*\*", r"\1", text)  # bold
+    text = re.sub(r"\*(.*?)\*", r"\1", text)      # italics
+    text = re.sub(r"^#+\s*", "", text, flags=re.MULTILINE)  # headings
+    text = re.sub(r"•\s*", "- ", text)             # bullet dot -> dash
+    text = re.sub(r"\r\n", "\n", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)         # normalize spacing
+    return text.strip()
+
+# ----------------- Prompts -----------------
+VSP_PROMPT_TEMPLATE = """
+You are an expert proposal writer producing internal Value Selling Points (VSP).
+Use only the provider profile and the client context provided. Do NOT invent facts.
+Return plain text only. Do not use Markdown.
+
+Produce these sections with bullets and short paragraphs:
+
+1. Case for Change –
+- Why this proposition is necessary
+- Why act now
+- Key business issues and urgency
+
+2. Business Value for the Client –
+- Map benefits to issues (revenue, cost, margins, time-to-market)
+- Ensure first-year value is described
+
+3. Proposed Solution (provider) –
+- Describe solution and unique parts
+- Show how it reduces risk and delivers value
+
+Be detailed and business-focused (aim ~250-400 words).
+"""
+
+EXEC_PROMPT_TEMPLATE = """
+You are a senior management consultant. Using the provider profile and the VSP, produce a polished,
+client-ready Executive Summary in plain text. Do NOT use Markdown or placeholders. Use a persuasive consulting tone.
+
+Requirements:
+- Aim for 600-900 words total.
+- Each section should be detailed (at least 2 short paragraphs where applicable).
+- Use '-' for bullets, not '*' or numbering.
+- Do not invent unverified facts; rely on the provider profile and client context.
+
+Sections (in order):
+1) Introduction (2-3 lines about the proposal)
+2) Our Understanding of Your Goals
+3) Our Approach to Meeting Your Goals
+4) Business Value for the Client
+5) Solution Overview
+6) How We Will Deliver
+7) Why {provider_name}
+8) Closing Call-to-Action
+
+Inputs:
+- PROVIDER_PROFILE:
+{provider_profile}
+
+- VSP:
+{vsp_text}
+
+- CLIENT_CONTEXT:
+{client_context}
+"""
+
+# ----------------- Routes -----------------
+@app.route("/setup", methods=["GET", "POST"])
+def setup():
+    if request.method == "POST":
+        profile = {
+            "name": request.form.get("name", "").strip(),
+            "industry": request.form.get("industry", "").strip(),
+            "services": request.form.get("services", "").strip(),
+            "differentiators": request.form.get("differentiators", "").strip(),
+            "contact_email": request.form.get("contact_email", "").strip(),
+            "contact_phone": request.form.get("contact_phone", "").strip(),
+            "notes": request.form.get("notes", "").strip()
+        }
+        if not profile["name"]:
+            flash("Company name is required", "warning")
+            return render_template("setup.html", profile=profile)
+        company_id = insert_company(profile)
+        flash(f"Company profile '{profile['name']}' created.", "success")
+        return redirect(url_for("index", company_id=company_id))
+    return render_template("setup.html")
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    companies = get_companies()
+    default_company_id = request.args.get("company_id")
+    if request.method == "POST":
+        company_id = int(request.form.get("company_id"))
+        company = get_company(company_id)
+        if not company:
+            flash("Selected company not found.", "danger")
+            return redirect(url_for("setup"))
+
+        client_name = request.form.get("client_name", "Client").strip()
+        client_industry = request.form.get("client_industry", "").strip()
+        client_goals = request.form.get("client_goals", "").strip()
+        proposal_modules = request.form.get("proposal_modules", "").strip()
+        execution_model = request.form.get("execution_model", "").strip()
+        extra_notes = request.form.get("extra_notes", "").strip()
+
+        client_context = f"""
+Client Name: {client_name}
+Client Industry: {client_industry}
+Goals/Challenges: {client_goals}
+Proposed Modules: {proposal_modules}
+Execution Model: {execution_model}
+Additional Notes: {extra_notes}
+""".strip()
+
+        # create session id and store references
+        session_id = os.urandom(8).hex()
+        session["id"] = session_id
+        storage[session_id] = {"client_context": client_context, "vsp": "", "draft": "", "company_id": company_id}
+
+        # ----- VSP generation (internal) -----
+        provider_profile_text = f"{company['name']}. Industry: {company['industry']}. Services: {company['services']}. Differentiators: {company['differentiators']}."
+        vsp_input = VSP_PROMPT_TEMPLATE + "\n\nPROVIDER_PROFILE:\n" + provider_profile_text + "\n\nCLIENT_CONTEXT:\n" + client_context
+        try:
+            vsp_resp = client.chat.completions.create(
+                model=OPENAI_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are an expert business consultant generating internal value selling points."},
+                    {"role": "user", "content": vsp_input}
+                ],
+                temperature=TEMPERATURE_VSP,
+                max_tokens=MAX_TOKENS_VSP
+            )
+            vsp_text = clean_text_block(vsp_resp.choices[0].message.content.strip())
+        except Exception as e:
+            vsp_text = f"VSP generation failed: {e}"
+
+        storage[session_id]["vsp"] = vsp_text
+
+        # ----- Executive Summary generation -----
+        exec_prompt = EXEC_PROMPT_TEMPLATE.format(provider_profile=provider_profile_text, vsp_text=vsp_text, client_context=client_context, provider_name=company['name'])
+        try:
+            exec_resp = client.chat.completions.create(
+                model=OPENAI_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are a senior management consultant writing client-ready executive summaries."},
+                    {"role": "user", "content": exec_prompt}
+                ],
+                temperature=TEMPERATURE_EXEC,
+                max_tokens=MAX_TOKENS_EXEC
+            )
+            exec_text = clean_text_block(exec_resp.choices[0].message.content.strip())
+        except Exception as e:
+            exec_text = f"Executive Summary generation failed: {e}"
+
+        storage[session_id]["draft"] = exec_text
+
+        return redirect(url_for("result"))
+
+    return render_template("index.html", companies=companies, default_company_id=default_company_id)
+
+@app.route("/result", methods=["GET", "POST"])
+def result():
+    session_id = session.get("id")
+    if not session_id or session_id not in storage:
+        flash("No active proposal found. Please generate one.", "warning")
+        return redirect(url_for("index"))
+
+    data = storage[session_id]
+    draft = data.get("draft", "")
+    client_context = data.get("client_context", "")
+    company_id = data.get("company_id")
+    company = get_company(company_id) if company_id else None
+
+    if request.method == "POST":
+        # ---------- refine ----------
+        if "refine" in request.form:
+            refine_input = request.form.get("refine_prompt", "").strip()
+            if not refine_input:
+                flash("Refine instructions cannot be empty.", "warning")
+                return render_template("result.html", draft=draft, context=client_context, company=company)
+
+            refine_prompt = f"""
+Refine the following Executive Summary applying these instructions exactly:
+{refine_input}
+
+Current Executive Summary:
+{draft}
+
+Rules:
+- Keep structure intact (Intro, Goals, Approach, Business Value, Solution, Delivery, Why Provider)
+- Expand sections where appropriate, do not shorten unless requested
+- Use '-' for bullets
+- Do NOT add Markdown or placeholders
+"""
+            try:
+                refine_resp = client.chat.completions.create(
+                    model=OPENAI_MODEL,
+                    messages=[
+                        {"role": "system", "content": "You are a professional consultant refining executive summaries."},
+                        {"role": "user", "content": refine_prompt}
+                    ],
+                    temperature=TEMPERATURE_EXEC,
+                    max_tokens=1500
+                )
+                draft = clean_text_block(refine_resp.choices[0].message.content.strip())
+                storage[session_id]["draft"] = draft
+            except Exception as e:
+                flash(f"Refine failed: {e}", "danger")
+
+            # re-render result page with updated draft (no redirect to home)
+            return render_template("result.html", draft=draft, context=client_context, company=company)
+
+        # ---------- download ----------
+        if "download" in request.form:
+            doc = Document()
+            doc.add_heading(f"Executive Summary by {company['name'] if company else 'Provider'}", level=0)
+            for line in draft.split("\n"):
+                if not line.strip():
+                    continue
+                if line.strip().startswith("- "):
+                    doc.add_paragraph(line.strip()[2:], style="List Bullet")
+                else:
+                    para = doc.add_paragraph(line.strip())
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    para.paragraph_format.space_after = Pt(12)
+
+            # intentionally DO NOT include VSP in DOCX (internal-only)
+            tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".docx")
+            doc.save(tmp_file.name)
+            return send_file(tmp_file.name, as_attachment=True, download_name="Executive_Summary.docx")
+
+        # ---------- finish ----------
+        if "finish" in request.form:
+            storage.pop(session_id, None)
+            session.clear()
+            flash("Session cleared.", "info")
+            return redirect(url_for("index"))
+
+    return render_template("result.html", draft=draft, context=client_context, company=company)
+
+# ----------------- App init -----------------
+if __name__ == "__main__":
+    init_db()
+    app.run(debug=True, host="0.0.0.0", port=5000)
+------------------app1.py with most things done "how do we deliver"----
+from flask import Flask, render_template, request, send_file, session, redirect, url_for, flash
+import sqlite3
+import os
+import tempfile
+import re
+from docx import Document
+from docx.shared import Pt
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+# OpenAI Python client
+from openai import OpenAI
+
+# ----------------- Config -----------------
+DB_PATH = "companies.db"
+APP_SECRET = os.getenv("FLASK_SECRET")
+HIDE_VSP_FROM_DOCX = True         # VSP will not be included in downloaded DOCX
+VSP_VISIBLE_IN_UI = False         # VSP will not be shown in UI
+OPENAI_MODEL = "gpt-4o"           # change if needed
+TEMPERATURE_VSP = 0.6
+MAX_TOKENS_VSP = 1000
+TEMPERATURE_EXEC = 0.7
+MAX_TOKENS_EXEC = 1500
+
+# ----------------- Flask -----------------
+app = Flask(__name__)
+app.secret_key = APP_SECRET
+
+# ----------------- OpenAI -----------------
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"),
+                organization=os.getenv("OPENAI_ORG_ID"))
+
+# ----------------- In-memory storage -----------------
+storage = {}
+
+# ----------------- DB Helpers -----------------
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS companies (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            industry TEXT,
+            services TEXT,
+            differentiators TEXT,
+            contact_email TEXT,
+            contact_phone TEXT,
+            website TEXT,
+            notes TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+
+def insert_company(profile):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute(
+        """INSERT INTO companies 
+        (name, industry, services, differentiators, contact_email, contact_phone, website, notes) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+        (profile.get("name"), profile.get("industry"), profile.get("services"),
+         profile.get("differentiators"), profile.get("contact_email"), profile.get("contact_phone"),
+         profile.get("website"), profile.get("notes"))
+    )
+    conn.commit()
+    company_id = cur.lastrowid
+    conn.close()
+    return company_id
+
+
+def get_companies():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("SELECT id, name, industry FROM companies ORDER BY name")
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+def get_company(company_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""SELECT id, name, industry, services, differentiators, contact_email, 
+                   contact_phone, website, notes 
+                   FROM companies WHERE id = ?""", (company_id,))
+    row = cur.fetchone()
+    conn.close()
+    if not row:
+        return None
+    keys = ["id", "name", "industry", "services", "differentiators", 
+            "contact_email", "contact_phone", "website", "notes"]
+    return dict(zip(keys, row))
+
+# ----------------- Text cleaning -----------------
+def clean_text_block(text: str) -> str:
+    if not text:
+        return ""
+    text = str(text)
+    text = re.sub(r"\*\*(.*?)\*\*", r"\1", text)
+    text = re.sub(r"\*(.*?)\*", r"\1", text)
+    text = re.sub(r"^#+\s*", "", text, flags=re.MULTILINE)
+    text = re.sub(r"•\s*", "- ", text, flags=re.MULTILINE)
+    text = re.sub(r"\r\n", "\n", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+# ----------------- Prompts -----------------
+EXEC_PROMPT_TEMPLATE = """
+You are a senior management consultant. Using the provider profile and VSP, produce a polished,
+client-ready Executive Summary in plain text. Do NOT use Markdown or placeholders. Use a persuasive consulting tone.
+
+Requirements:
+- Aim for 600-900 words total.
+- Some sections must use bullets:
+  - Our Approach to Meeting Your Goals → bullets for 4-step playbook
+  - Business Value for the Client → bullets for measurable KPIs and outcomes
+  - How We Will Deliver → bullets for roadmap, governance, compliance
+  - Why {provider_name} → bullets for differentiators, credentials
+- Other sections remain detailed paragraphs (2–3 per section).
+- Use '-' for bullets, not '*' or numbering.
+- Do not invent unverified facts; rely on provider profile and client context.
+-Research and include 3–4 current industry-specific insights, challenges, or opportunities relevant to client industry. 
+ These must be seamlessly integrated into the executive summary.
+
+Sections (in order):
+1) Introduction
+2) Our Understanding of Your Goals
+3) Our Approach to Meeting Your Goals
+4) Business Value for the Client
+5) Solution Overview
+6) How We Will Deliver
+7) Why {provider_name}
+8) Closing Call-to-Action
+
+Inputs:
+- PROVIDER_PROFILE:
+{provider_profile}
+
+- CLIENT_CONTEXT:
+{client_context}
+"""
+
+# ----------------- Routes -----------------
+@app.route("/setup", methods=["GET", "POST"])
+def setup():
+    if request.method == "POST":
+        profile = {
+            "name": request.form.get("name", "").strip(),
+            "industry": request.form.get("industry", "").strip(),
+            "services": request.form.get("services", "").strip(),
+            "differentiators": request.form.get("differentiators", "").strip(),
+            "contact_email": request.form.get("contact_email", "").strip(),
+            "contact_phone": request.form.get("contact_phone", "").strip(),
+            "website": request.form.get("website", "").strip(),
+            "notes": request.form.get("notes", "").strip()
+        }
+        if not profile["name"]:
+            flash("Company name is required", "warning")
+            return render_template("setup.html", profile=profile)
+        company_id = insert_company(profile)
+        flash(f"Company profile '{profile['name']}' created.", "success")
+        return redirect(url_for("index", company_id=company_id))
+    return render_template("setup.html")
+
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    companies = get_companies()
+    default_company_id = request.args.get("company_id")
+    if request.method == "POST":
+        company_id = int(request.form.get("company_id"))
+        company = get_company(company_id)
+        if not company:
+            flash("Selected company not found.", "danger")
+            return redirect(url_for("setup"))
+
+        client_name = request.form.get("client_name", "Client").strip()
+        client_industry = request.form.get("client_industry", "").strip()
+        client_goals = request.form.get("client_goals", "").strip()
+        proposal_modules = request.form.get("proposal_modules", "").strip()
+        execution_model = request.form.get("execution_model", "").strip()
+        extra_notes = request.form.get("extra_notes", "").strip()
+
+        client_context = f"""
+Client Name: {client_name}
+Client Industry: {client_industry}
+Goals/Challenges: {client_goals}
+Proposed Modules: {proposal_modules}
+Execution Model: {execution_model}
+Additional Notes: {extra_notes}
+""".strip()
+
+        session_id = os.urandom(8).hex()
+        session["id"] = session_id
+        storage[session_id] = {"client_context": client_context, "draft": "", "company_id": company_id}
+
+        provider_profile_text = f"{company['name']} (Industry: {company['industry']}). Services: {company['services']}. Differentiators: {company['differentiators']}. Website: {company['website']}. Contact: {company['contact_email']} | {company['contact_phone']}."
+        exec_prompt = EXEC_PROMPT_TEMPLATE.format(provider_profile=provider_profile_text, client_context=client_context, provider_name=company['name'])
+
+        try:
+            exec_resp = client.chat.completions.create(
+                model=OPENAI_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are a senior management consultant writing client-ready executive summaries."},
+                    {"role": "user", "content": exec_prompt}
+                ],
+                temperature=TEMPERATURE_EXEC,
+                max_tokens=MAX_TOKENS_EXEC
+            )
+            exec_text = clean_text_block(exec_resp.choices[0].message.content.strip())
+        except Exception as e:
+            exec_text = f"Executive Summary generation failed: {e}"
+
+        storage[session_id]["draft"] = exec_text
+
+        return redirect(url_for("result"))
+
+    return render_template("index.html", companies=companies, default_company_id=default_company_id)
+
+@app.route("/result", methods=["GET", "POST"])
+def result():
+    session_id = session.get("id")
+    if not session_id or session_id not in storage:
+        flash("No active proposal found. Please generate one.", "warning")
+        return redirect(url_for("index"))
+
+    data = storage[session_id]
+    draft = data.get("draft", "")
+    client_context = data.get("client_context", "")
+    company_id = data.get("company_id")
+    company = get_company(company_id) if company_id else None
+
+    if request.method == "POST":
+        if "refine" in request.form:
+            refine_input = request.form.get("refine_prompt", "").strip()
+            if not refine_input:
+                flash("Refine instructions cannot be empty.", "warning")
+                return render_template("result.html", draft=draft, context=client_context, company=company)
+
+            refine_prompt = f"""
+Refine the following Executive Summary applying these instructions exactly:
+{refine_input}
+
+Current Executive Summary:
+{draft}
+
+Rules:
+- Keep structure intact (Intro, Goals, Approach, Business Value, Solution, Delivery, Why Provider)
+- Expand sections where appropriate, do not shorten unless requested
+- Use '-' for bullets
+- Do NOT add Markdown or placeholders
+"""
+            try:
+                refine_resp = client.chat.completions.create(
+                    model=OPENAI_MODEL,
+                    messages=[
+                        {"role": "system", "content": "You are a professional consultant refining executive summaries."},
+                        {"role": "user", "content": refine_prompt}
+                    ],
+                    temperature=TEMPERATURE_EXEC,
+                    max_tokens=1500
+                )
+                draft = clean_text_block(refine_resp.choices[0].message.content.strip())
+                storage[session_id]["draft"] = draft
+            except Exception as e:
+                flash(f"Refine failed: {e}", "danger")
+
+            return render_template("result.html", draft=draft, context=client_context, company=company)
+        
+        if "download" in request.form:
+            doc = Document()
+            doc.add_heading(f"Executive Summary by {company['name'] if company else 'Provider'}", level=0)
+
+            # Process content line by line
+            for line in draft.split("\n"):
+                if not line.strip():
+                    continue
+                stripped = line.strip()
+
+                # Detect section titles (normalize lowercase for matching)
+                lower = stripped.lower()
+                if lower.startswith("introduction"):
+                    title = "Introduction"
+                elif lower.startswith("our understanding"):
+                    title = "Our Understanding of Your Goals"
+                elif lower.startswith("our approach"):
+                    title = "Our Approach to Meeting Your Goals"
+                elif lower.startswith("business value"):
+                    title = "Business Value for the Client"
+                elif lower.startswith("solution overview"):
+                    title = "Solution Overview"
+                elif lower.startswith("how we will deliver"):
+                    title = "How We Will Deliver"
+                elif lower.startswith("why"):
+                    title = f"Why {company['name'] if company else 'Provider'}"
+                elif lower.startswith("closing"):
+                    title = "Closing Call-to-Action"
+                else:
+                    title = None
+
+                if title:  # Format as heading (bold, same font size as body)
+                    para = doc.add_paragraph(title)
+                    run = para.runs[0]
+                    run.bold = True
+                    run.font.size = Pt(12)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    para.paragraph_format.space_after = Pt(6)
+
+                elif stripped.startswith("- "):  # Bullet point
+                    para = doc.add_paragraph(stripped[2:], style="List Bullet")
+                    para.paragraph_format.space_after = Pt(6)
+
+                else:  # Normal body text
+                    para = doc.add_paragraph(stripped)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    para.paragraph_format.space_after = Pt(12)
+
+            # Append Contact Information at the end
+            doc.add_heading("Contact Information", level=1)
+            if company:
+                contact_block = [
+                    f"Email: {company.get('contact_email', 'N/A')}",
+                    f"Phone: {company.get('contact_phone', 'N/A')}",
+                    f"Website: {company.get('notes', 'N/A')}"
+                ]
+                for item in contact_block:
+                    para = doc.add_paragraph(item)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    para.paragraph_format.space_after = Pt(6)
+
+            tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".docx")
+            doc.save(tmp_file.name)
+            return send_file(tmp_file.name, as_attachment=True, download_name="Executive_Summary_doc.docx")
+
+
+        if "finish" in request.form:
+            storage.pop(session_id, None)
+            session.clear()
+            flash("Session cleared.", "info")
+            return redirect(url_for("index"))
+
+    return render_template("result.html", draft=draft, context=client_context, company=company)
+
+# ----------------- App init -----------------
+if __name__ == "__main__":
+    init_db()
+    app.run(debug=True, host="0.0.0.0", port=5000)
+
+
+
+---------------------app1.py (with most of the content intact : needs pointers from vsp to exe sum)------------------------
+from flask import Flask, render_template, request, send_file, session, redirect, url_for, flash
+import sqlite3
+import os
+import tempfile
+import re
+from docx import Document
+from docx.shared import Pt
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+# OpenAI Python client
+from openai import OpenAI
+
+# ----------------- Config -----------------
+DB_PATH = "companies.db"
+APP_SECRET = os.getenv("FLASK_SECRET")
+HIDE_VSP_FROM_DOCX = True
+VSP_VISIBLE_IN_UI = True     # ✅ now visible in result page
+OPENAI_MODEL = "gpt-4o"
+TEMPERATURE_VSP = 0.6
+MAX_TOKENS_VSP = 1000
+TEMPERATURE_EXEC = 0.7
+MAX_TOKENS_EXEC = 1500
+
+# ----------------- Flask -----------------
+app = Flask(__name__)
+app.secret_key = APP_SECRET
+
+# ----------------- OpenAI -----------------
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"),
+                organization=os.getenv("OPENAI_ORG_ID"))
+
+# ----------------- In-memory storage -----------------
+storage = {}
+
+# ----------------- DB Helpers -----------------
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS companies (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            industry TEXT,
+            services TEXT,
+            differentiators TEXT,
+            contact_email TEXT,
+            contact_phone TEXT,
+            website TEXT,
+            notes TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+
+def insert_company(profile):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute(
+        """INSERT INTO companies 
+        (name, industry, services, differentiators, contact_email, contact_phone, website, notes) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+        (profile.get("name"), profile.get("industry"), profile.get("services"),
+         profile.get("differentiators"), profile.get("contact_email"), profile.get("contact_phone"),
+         profile.get("website"), profile.get("notes"))
+    )
+    conn.commit()
+    company_id = cur.lastrowid
+    conn.close()
+    return company_id
+
+
+def get_companies():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("SELECT id, name, industry FROM companies ORDER BY name")
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+def get_company(company_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""SELECT id, name, industry, services, differentiators, contact_email, 
+                   contact_phone, website, notes 
+                   FROM companies WHERE id = ?""", (company_id,))
+    row = cur.fetchone()
+    conn.close()
+    if not row:
+        return None
+    keys = ["id", "name", "industry", "services", "differentiators", 
+            "contact_email", "contact_phone", "website", "notes"]
+    return dict(zip(keys, row))
+
+# ----------------- Text cleaning -----------------
+def clean_text_block(text: str) -> str:
+    if not text:
+        return ""
+    text = str(text)
+    text = re.sub(r"\*\*(.*?)\*\*", r"\1", text)
+    text = re.sub(r"\*(.*?)\*", r"\1", text)
+    text = re.sub(r"^#+\s*", "", text, flags=re.MULTILINE)
+    text = re.sub(r"•\s*", "- ", text, flags=re.MULTILINE)
+    text = re.sub(r"\r\n", "\n", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+# ----------------- Prompts -----------------
+EXEC_PROMPT_TEMPLATE = """
+You are a senior management consultant. Using the provider profile and VSP, produce a polished,
+client-ready Executive Summary in well formatted text without using any formatting markings like ## or **. Do NOT use Markdown or placeholders. Use a persuasive consulting tone.
+Refer VSP points generated(for vocab or terms) .Dont keep it generic , paraphrase the content to amke it sound more personlaised and organisation specific.
+
+Requirements:
+- Aim for 600-900 words total.
+- Some sections must use bullets:
+  - Our Approach to Meeting Your Goals → bullets for 4-step playbook
+  - How We Will Deliver → bullets that suite the specific client and solution (3-4) must look appealing and needful for the client
+  -Solution overview -> bullets for different parts/steps of the solution proposed 
+  - Why {provider_name} → bullets for differentiators, credentials(needs to be tailored to suite the client )
+- Other sections remain detailed paragraphs (2–3 per section).
+- Use '-' for bullets, not '*' or numbering.
+- Do not invent unverified facts; rely on provider profile and client context.
+-Research and include 3–4 current industry-specific insights, challenges, or opportunities relevant to client industry. 
+ These must be seamlessly integrated into the executive summary.
+
+Sections (in order):
+1) Introduction
+2) Our Understanding of Your Goals
+3) Our Approach to Meeting Your Goals
+4) Solution Overview
+5) How We Will Deliver
+6) Why {provider_name}
+7) Closing Call-to-Action
+
+Inputs:
+- PROVIDER_PROFILE:
+{provider_profile}
+-VSP:
+{vsp_resp}
+-Website of provider:
+{website}
+- CLIENT_CONTEXT:
+{client_context}
+"""
+
+# ----------------- Routes -----------------
+@app.route("/setup", methods=["GET", "POST"])
+def setup():
+    if request.method == "POST":
+        profile = {
+            "name": request.form.get("name", "").strip(),
+            "industry": request.form.get("industry", "").strip(),
+            "services": request.form.get("services", "").strip(),
+            "differentiators": request.form.get("differentiators", "").strip(),
+            "contact_email": request.form.get("contact_email", "").strip(),
+            "contact_phone": request.form.get("contact_phone", "").strip(),
+            "website": request.form.get("website", "").strip(),
+            "notes": request.form.get("notes", "").strip()
+        }
+        if not profile["name"]:
+            flash("Company name is required", "warning")
+            return render_template("setup.html", profile=profile)
+        company_id = insert_company(profile)
+        flash(f"Company profile '{profile['name']}' created.", "success")
+        return redirect(url_for("index", company_id=company_id))
+    return render_template("setup.html")
+
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    companies = get_companies()
+    default_company_id = request.args.get("company_id")
+    if request.method == "POST":
+        company_id = int(request.form.get("company_id"))
+        company = get_company(company_id)
+        if not company:
+            flash("Selected company not found.", "danger")
+            return redirect(url_for("setup"))
+
+        client_name = request.form.get("client_name", "Client").strip()
+        client_industry = request.form.get("client_industry", "").strip()
+        client_goals = request.form.get("client_goals", "").strip()
+        proposal_modules = request.form.get("proposal_modules", "").strip()
+        execution_model = request.form.get("execution_model", "").strip()
+        extra_notes = request.form.get("extra_notes", "").strip()
+
+        client_context = f"""
+Client Name: {client_name}
+Client Industry: {client_industry}
+Goals/Challenges: {client_goals}
+Proposed Modules: {proposal_modules}
+Execution Model: {execution_model}
+Additional Notes: {extra_notes}
+""".strip()
+
+        session_id = os.urandom(8).hex()
+        session["id"] = session_id
+        storage[session_id] = {"client_context": client_context, "draft": "", "vsp": "", "company_id": company_id}
+
+        provider_profile_text = f"{company['name']} (Industry: {company['industry']}). Services: {company['services']}. Differentiators: {company['differentiators']}. Website: {company['website']}. Contact: {company['contact_email']} | {company['contact_phone']}."
+                # ✅ Generate VSP first
+        vsp_prompt  = f"""
+You are a senior management consultant. Based on the provider profile and client context,
+generate a Value Selling Points (VSP) document in well formatted text. 
+Do not use * or # or any other formatting symbols symbols at all 
+Do NOT use Markdown or placeholders. Keep it  persuasive, and structured exactly as below.
+Under each section generate content in  bullets as mentioned in description .
+
+Sections (use headings exactly as written):
+
+1) Case for Change
+- Describe why this proposition is necessary
+- Define why the client should do this now to achieve compelling business outcomes
+- Articulate key business issues
+
+2) Business Value for the Client
+- Map the key business benefits to the key business issues
+- Focus on hard, tangible outcomes: revenue, EBITDA, margins, operating costs, working capital, faster time to market, etc.
+- Ensure first year value to client
+- Link the benefits to closing the client value gaps identified in the case for change
+
+3) {company['name']} Proposed Solution
+- Describe the proposed solution
+- Define the unique and innovative parts of the solution, and how it enables business value
+- Articulate {company['name']} benefits in terms of delivering faster outcomes and reducing risk
+
+Inputs:
+- PROVIDER_PROFILE:
+{provider_profile_text}
+
+- CLIENT_CONTEXT:
+{client_context}
+"""
+        try:
+            vsp_resp = client.chat.completions.create(
+                model=OPENAI_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are an expert proposal writer."},
+                    {"role": "user", "content": vsp_prompt}
+                ],
+                temperature=TEMPERATURE_VSP,
+                max_tokens=MAX_TOKENS_VSP
+            )
+            vsp_text = clean_text_block(vsp_resp.choices[0].message.content.strip())
+        except Exception as e:
+            vsp_text = f"VSP generation failed: {e}"
+
+        storage[session_id]["vsp"] = vsp_text
+
+        # ✅ Now generate Executive Summary, feeding VSP into it
+        exec_prompt = EXEC_PROMPT_TEMPLATE.format(
+            provider_profile=provider_profile_text,
+            client_context=client_context,
+            provider_name=company['name'],
+            website=company["website"],
+            vsp_resp=vsp_text
+        )
+
+        try:
+            exec_resp = client.chat.completions.create(
+                model=OPENAI_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are a senior management consultant writing client-ready executive summaries."},
+                    {"role": "user", "content": exec_prompt}
+                ],
+                temperature=TEMPERATURE_EXEC,
+                max_tokens=MAX_TOKENS_EXEC
+            )
+            exec_text = clean_text_block(exec_resp.choices[0].message.content.strip())
+        except Exception as e:
+            exec_text = f"Executive Summary generation failed: {e}"
+
+        storage[session_id]["draft"] = exec_text
+
+
+        return redirect(url_for("result"))
+
+    return render_template("index.html", companies=companies, default_company_id=default_company_id)
+
+@app.route("/result", methods=["GET", "POST"])
+def result():
+    session_id = session.get("id")
+    if not session_id or session_id not in storage:
+        flash("No active proposal found. Please generate one.", "warning")
+        return redirect(url_for("index"))
+
+    data = storage[session_id]
+    draft = data.get("draft", "")
+    vsp = data.get("vsp", "")
+    client_context = data.get("client_context", "")
+    company_id = data.get("company_id")
+    company = get_company(company_id) if company_id else None
+
+    if request.method == "POST":
+
+        # ---------- Refine ----------
+        if "refine" in request.form:
+            refine_input = request.form.get("refine_prompt", "").strip()
+            if not refine_input:
+                flash("Refine instructions cannot be empty.", "warning")
+                return render_template("result.html", draft=draft, vsp=vsp,
+                                       context=client_context, company=company, show_vsp=VSP_VISIBLE_IN_UI)
+
+            refine_prompt = f"""
+Refine the following Executive Summary applying these instructions exactly:
+{refine_input}
+
+Current Executive Summary:
+{draft}
+
+Rules:
+- Keep structure intact (Intro, Goals, Approach, Solution, Delivery, Why Provider, Closing)
+- Expand sections where appropriate, do not shorten unless requested
+- Use '-' for bullets
+- Do NOT add Markdown or placeholders
+"""
+            try:
+                refine_resp = client.chat.completions.create(
+                    model=OPENAI_MODEL,
+                    messages=[
+                        {"role": "system", "content": "You are a professional consultant refining executive summaries."},
+                        {"role": "user", "content": refine_prompt}
+                    ],
+                    temperature=TEMPERATURE_EXEC,
+                    max_tokens=1500
+                )
+                draft = clean_text_block(refine_resp.choices[0].message.content.strip())
+                storage[session_id]["draft"] = draft
+            except Exception as e:
+                flash(f"Refine failed: {e}", "danger")
+
+        # ---------- Download ----------
+        elif "download" in request.form:
+            doc = Document()
+            doc.add_heading(f"Executive Summary by {company['name'] if company else 'Provider'}", level=0)
+
+            for line in draft.split("\n"):
+                if not line.strip():
+                    continue
+                stripped = line.strip()
+                lower = stripped.lower()
+
+                # Recognize headings
+                if lower.startswith("introduction"):
+                  title = "Introduction"
+                elif lower.startswith("our understanding"):
+                  title = "Our Understanding of Your Goals"
+                elif lower.startswith("our approach"):
+                  title = "Our Approach to Meeting Your Goals"
+                elif lower.startswith("solution overview"):
+                   title = "Solution Overview"
+                elif lower.startswith("how we will deliver"):
+                   title = "How We Will Deliver"
+                elif lower.startswith("why"):
+                  title = f"Why {company['name'] if company else 'Provider'}"
+                elif lower.startswith("closing"):
+                  title = "Closing Call-to-Action"
+                else:
+                  title = None
+
+                if title:
+                    para = doc.add_paragraph(title)
+                    run = para.runs[0]
+                    run.bold = True
+                    run.font.size = Pt(14)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    para.paragraph_format.space_after = Pt(12)
+
+                elif stripped.startswith("- "):  # Bullet point
+                    para = doc.add_paragraph(stripped[2:], style="List Bullet")
+                    para.paragraph_format.space_after = Pt(6)
+
+                else:  # Normal text
+                    para = doc.add_paragraph(stripped)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    para.paragraph_format.space_after = Pt(12)
+
+            # Contact Info at bottom
+            doc.add_heading("Contact Information", level=1)
+            if company:
+                contact_block = [
+                    f"Email: {company.get('contact_email', 'N/A')}",
+                    f"Phone: {company.get('contact_phone', 'N/A')}",
+                    f"Website: {company.get('website', 'N/A')}"
+                ]
+                for item in contact_block:
+                    para = doc.add_paragraph(item)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    para.paragraph_format.space_after = Pt(6)
+
+            tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".docx")
+            doc.save(tmp_file.name)
+            return send_file(tmp_file.name, as_attachment=True, download_name="Executive_Summary.docx")
+
+        # ---------- Finish ----------
+        elif "finish" in request.form:
+            storage.pop(session_id, None)
+            session.clear()
+            flash("Session cleared.", "info")
+            return redirect(url_for("index"))
+
+    # Always render page with updated content
+    return render_template("result.html", draft=draft, vsp=vsp,
+                           context=client_context, company=company, show_vsp=VSP_VISIBLE_IN_UI)
+
+# ----------------- App init -----------------
+if __name__ == "__main__":
+    init_db()
+    app.run(debug=True, host="0.0.0.0", port=5000)
+
+~~~~~~~~~~~~~exe temp prompt ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+EXEC_PROMPT_TEMPLATE = """
+You are a senior management consultant. Using the provider profile and VSP, produce a polished,
+client-ready Executive Summary in well formatted text without using any formatting markings like ## or **. Do NOT use Markdown or placeholders. Use a persuasive consulting tone.
+Refer VSP points generated (for vocabulary, phrasing, and terminology) and ensure key VSP content is mirrored directly. 
+Do NOT dilute or replace client-specific issues, benefits, or solution language from the VSP — preserve it wherever possible, only expanding into narrative flow.
+
+Requirements:
+- Aim for 600-900 words total.
+- Some sections must use bullets:
+  - Our Approach to Meeting Your Goals → bullets  must align with proposed solution  
+  - How We Will Deliver → bullets that suit the specific client and solution (3-4) must look appealing and needful for the client
+  - Solution Overview → bullets for different parts/steps of the solution proposed
+  - Why {provider_name} → bullets for differentiators, credentials (needs to be tailored to suit the client)
+- Other sections remain detailed paragraphs (2–3 per section).
+- Use '-' for bullets, not '*' or numbering.
+- Do not invent unverified facts; rely on provider profile and client context.
+- Research and include 3–4 current industry-specific insights, challenges, or opportunities relevant to client industry. 
+  These must be seamlessly integrated into the executive summary.
+- Maintain direct mapping with VSP:
+  * Case for Change(talk about the client goals not about providers solution or provision) → Our Understanding of Your Goals
+  * Case for Change (continued) + Business Value → Our Approach to Meeting Your Goals
+  * Business Value (continued) → Solution Overview
+  * Proposed Solution → How We Will Deliver
+  * Proposed Solution (continued) → Why {provider_name}
+
+Sections (in order):
+1) Introduction
+2) Our Understanding of Your Goals
+3) Our Approach to Meeting Your Goals
+4) Solution Overview
+5) How We Will Deliver
+6) Why {provider_name}
+7) Closing Call-to-Action
+
+Inputs:
+- PROVIDER_PROFILE:
+{provider_profile}
+- VSP:
+{vsp_resp}
+- Website of provider:
+{website}
+- CLIENT_CONTEXT:
+{client_context}
+"""
+
+~_~_~_~_~ attempt before guard rails ~_~_~_~_~_~
+
+from flask import Flask, render_template, request, send_file, session, redirect, url_for, flash
+import sqlite3
+import os
+import tempfile
+import re
+from docx import Document
+from docx.shared import Pt
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+# OpenAI Python client
+from openai import OpenAI
+
+# ----------------- Config -----------------
+DB_PATH = "companies.db"
+APP_SECRET = os.getenv("FLASK_SECRET")
+HIDE_VSP_FROM_DOCX = True
+VSP_VISIBLE_IN_UI = True     # ✅ now visible in result page
+OPENAI_MODEL = "gpt-4o"
+TEMPERATURE_VSP = 0.6
+MAX_TOKENS_VSP = 1000
+TEMPERATURE_EXEC = 0.7
+MAX_TOKENS_EXEC = 1500
+
+# ----------------- Flask -----------------
+app = Flask(__name__)
+app.secret_key = APP_SECRET
+
+# ----------------- OpenAI -----------------
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"),
+                organization=os.getenv("OPENAI_ORG_ID"))
+
+# ----------------- In-memory storage -----------------
+storage = {}
+
+# ----------------- DB Helpers -----------------
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS companies (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            industry TEXT,
+            services TEXT,
+            differentiators TEXT,
+            contact_email TEXT,
+            contact_phone TEXT,
+            website TEXT,
+            notes TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+
+def insert_company(profile):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute(
+        """INSERT INTO companies 
+        (name, industry, services, differentiators, contact_email, contact_phone, website, notes) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+        (profile.get("name"), profile.get("industry"), profile.get("services"),
+         profile.get("differentiators"), profile.get("contact_email"), profile.get("contact_phone"),
+         profile.get("website"), profile.get("notes"))
+    )
+    conn.commit()
+    company_id = cur.lastrowid
+    conn.close()
+    return company_id
+
+
+def get_companies():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("SELECT id, name, industry FROM companies ORDER BY name")
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+def get_company(company_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""SELECT id, name, industry, services, differentiators, contact_email, 
+                   contact_phone, website, notes 
+                   FROM companies WHERE id = ?""", (company_id,))
+    row = cur.fetchone()
+    conn.close()
+    if not row:
+        return None
+    keys = ["id", "name", "industry", "services", "differentiators", 
+            "contact_email", "contact_phone", "website", "notes"]
+    return dict(zip(keys, row))
+
+# ----------------- Text cleaning -----------------
+def clean_text_block(text: str) -> str:
+    if not text:
+        return ""
+    text = str(text)
+    text = re.sub(r"\*\*(.*?)\*\*", r"\1", text)
+    text = re.sub(r"\*(.*?)\*", r"\1", text)
+    text = re.sub(r"^#+\s*", "", text, flags=re.MULTILINE)
+    text = re.sub(r"•\s*", "- ", text, flags=re.MULTILINE)
+    text = re.sub(r"\r\n", "\n", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+# ----------------- Prompts -----------------
+EXEC_PROMPT_TEMPLATE = """
+You are a senior management consultant. Using the provider profile and VSP, produce a polished,
+client-ready Executive Summary in well formatted text without using any formatting markings like ## or **. Do NOT use Markdown or placeholders. Use a persuasive consulting tone.
+DONT CLAIM TITLES THAT WERENT explicitly mentioned in the input given for both client and provider  .(eg.a leader , the top provider , so on)
+Refer VSP points generated(for vocab or terms). paraphrase the content to make it sound more personalised and organisation specific.
+
+Inputs:
+- PROVIDER_PROFILE:
+{provider_profile}
+- VSP:
+{vsp_resp}
+- Website of provider:
+{website}
+- CLIENT_CONTEXT:
+{client_context}
+
+Requirements:
+- Aim for 600-900 words total.
+-Our understanding of your goals must follow this:current client industry pain points and what the client might be explicitly looking for as an cope-up mechanism to highlight n improve visibility in market (refer case for change from vsp and mirror key or interested points exactly)
+
+-introduction must be concised around 2-3 lines and talk about the client and provider in general .
+- Some sections must use bullets:
+  - Our Approach to Meeting Your Goals → bullets well aligned with the proposed solution targeting the clients goals
+  - How We Will Deliver → bullets that suite the specific client and solution (3-4) must look appealing and needful for the client
+  - Solution Overview → bullets for different parts/steps of the solution proposed 
+  - Why {provider_name} → bullets for differentiators, credentials (needs to be tailored to suite the client)
+- Other sections remain detailed paragraphs (2–3 per section).
+- Use '-' for bullets, not '*' or numbering.
+- Do not invent unverified facts; rely on provider profile and client context.
+- Research and include 3–4 current industry-specific insights, challenges, or opportunities relevant to client industry. 
+  These must be seamlessly integrated into the executive summary.
+- **Explicitly mirror critical phrases and business value points from the VSP (e.g., ROI, EBITDA, margins, first-year value, risk reduction, compliance standards like GDPR/HIPAA/ISO 27001, patient satisfaction, revenue growth, faster time-to-market) in the corresponding Executive Summary sections without diluting or omitting them.**
+
+Sections (in order):
+1) Introduction
+2) Our Understanding of Your Goals
+3) Our Approach to Meeting Your Goals
+4) Solution Overview
+5) How We Will Deliver
+6) Why {provider_name}
+7) Closing Call-to-Action
+
+
+"""
+
+
+
+
+# ----------------- Routes -----------------
+@app.route("/setup", methods=["GET", "POST"])
+def setup():
+    if request.method == "POST":
+        profile = {
+            "name": request.form.get("name", "").strip(),
+            "industry": request.form.get("industry", "").strip(),
+            "services": request.form.get("services", "").strip(),
+            "differentiators": request.form.get("differentiators", "").strip(),
+            "contact_email": request.form.get("contact_email", "").strip(),
+            "contact_phone": request.form.get("contact_phone", "").strip(),
+            "website": request.form.get("website", "").strip(),
+            "notes": request.form.get("notes", "").strip()
+        }
+        if not profile["name"]:
+            flash("Company name is required", "warning")
+            return render_template("setup.html", profile=profile)
+        company_id = insert_company(profile)
+        flash(f"Company profile '{profile['name']}' created.", "success")
+        return redirect(url_for("index", company_id=company_id))
+    return render_template("setup.html")
+
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    companies = get_companies()
+    default_company_id = request.args.get("company_id")
+    if request.method == "POST":
+        company_id = int(request.form.get("company_id"))
+        company = get_company(company_id)
+        if not company:
+            flash("Selected company not found.", "danger")
+            return redirect(url_for("setup"))
+
+        client_name = request.form.get("client_name", "Client").strip()
+        client_industry = request.form.get("client_industry", "").strip()
+        client_goals = request.form.get("client_goals", "").strip()
+        proposal_modules = request.form.get("proposal_modules", "").strip()
+        execution_model = request.form.get("execution_model", "").strip()
+        extra_notes = request.form.get("extra_notes", "").strip()
+
+        client_context = f"""
+Client Name: {client_name}
+Client Industry: {client_industry}
+Goals/Challenges: {client_goals}
+Proposed Modules: {proposal_modules}
+Execution Model: {execution_model}
+Additional Notes: {extra_notes}
+""".strip()
+
+        session_id = os.urandom(8).hex()
+        session["id"] = session_id
+        storage[session_id] = {"client_context": client_context, "draft": "", "vsp": "", "company_id": company_id}
+
+        provider_profile_text = f"{company['name']} (Industry: {company['industry']}). Services: {company['services']}. Differentiators: {company['differentiators']}. Website: {company['website']}. Contact: {company['contact_email']} | {company['contact_phone']}."
+                # ✅ Generate VSP first
+        vsp_prompt  = f"""
+You are a senior management consultant. Based on the provider profile and client context,
+generate a Value Selling Points (VSP) document in well formatted text. 
+Do not use * or # or any other formatting symbols symbols at all 
+Do NOT use Markdown or placeholders. Keep it  persuasive, and structured exactly as below.
+Under each section generate content in  bullets as mentioned in description .
+
+Sections (use headings exactly as written):
+
+1) Case for Change
+- Describe why this proposition is necessary
+- Define why the client should do this now to achieve compelling business outcomes
+- Articulate key business issues
+
+2) Business Value for the Client
+- Map the key business benefits to the key business issues
+- Focus on hard, tangible outcomes: revenue, EBITDA, margins, operating costs, working capital, faster time to market, etc.
+- Ensure first year value to client
+- Link the benefits to closing the client value gaps identified in the case for change
+
+3) {company['name']} Proposed Solution
+- Describe the proposed solution
+- Define the unique and innovative parts of the solution, and how it enables business value
+- Articulate {company['name']} benefits in terms of delivering faster outcomes and reducing risk
+
+Inputs:
+- PROVIDER_PROFILE:
+{provider_profile_text}
+
+- CLIENT_CONTEXT:
+{client_context}
+"""
+        try:
+            vsp_resp = client.chat.completions.create(
+                model=OPENAI_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are an expert proposal writer."},
+                    {"role": "user", "content": vsp_prompt}
+                ],
+                temperature=TEMPERATURE_VSP,
+                max_tokens=MAX_TOKENS_VSP
+            )
+            vsp_text = clean_text_block(vsp_resp.choices[0].message.content.strip())
+        except Exception as e:
+            vsp_text = f"VSP generation failed: {e}"
+
+        storage[session_id]["vsp"] = vsp_text
+
+        # ✅ Now generate Executive Summary, feeding VSP into it
+        exec_prompt = EXEC_PROMPT_TEMPLATE.format(
+            provider_profile=provider_profile_text,
+            client_context=client_context,
+            provider_name=company['name'],
+            website=company["website"],
+            vsp_resp=vsp_text
+        )
+
+        try:
+            exec_resp = client.chat.completions.create(
+                model=OPENAI_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are a senior management consultant writing client-ready executive summaries."},
+                    {"role": "user", "content": exec_prompt}
+                ],
+                temperature=TEMPERATURE_EXEC,
+                max_tokens=MAX_TOKENS_EXEC
+            )
+            exec_text = clean_text_block(exec_resp.choices[0].message.content.strip())
+        except Exception as e:
+            exec_text = f"Executive Summary generation failed: {e}"
+
+        storage[session_id]["draft"] = exec_text
+
+
+        return redirect(url_for("result"))
+
+    return render_template("index.html", companies=companies, default_company_id=default_company_id)
+
+
+
+# ----------------- App init -----------------
+
+
+@app.route("/result", methods=["GET", "POST"])
+def result():
+    session_id = session.get("id")
+    if not session_id or session_id not in storage:
+        flash("No active proposal found. Please generate one.", "warning")
+        return redirect(url_for("index"))
+
+    data = storage[session_id]
+    draft = data.get("draft", "")
+    vsp = data.get("vsp", "")
+    client_context = data.get("client_context", "")
+    company_id = data.get("company_id")
+    company = get_company(company_id) if company_id else None
+
+    if request.method == "POST":
+
+        # ---------- Refine ----------
+        if "refine" in request.form:
+            refine_input = request.form.get("refine_prompt", "").strip()
+            if not refine_input:
+                flash("Refine instructions cannot be empty.", "warning")
+                return render_template("result.html", draft=draft, vsp=vsp,
+                                       context=client_context, company=company, show_vsp=VSP_VISIBLE_IN_UI)
+
+            refine_prompt = f"""
+Refine the following Executive Summary applying these instructions exactly:
+{refine_input}
+
+Current Executive Summary:
+{draft}
+
+Rules:
+- Keep structure intact (Intro, Goals, Approach, Solution, Delivery, Why Provider, Closing)
+- Expand sections where appropriate, do not shorten unless requested
+- Use '-' for bullets
+- Do NOT add Markdown or placeholders
+"""
+            try:
+                refine_resp = client.chat.completions.create(
+                    model=OPENAI_MODEL,
+                    messages=[
+                        {"role": "system", "content": "You are a professional consultant refining executive summaries."},
+                        {"role": "user", "content": refine_prompt}
+                    ],
+                    temperature=TEMPERATURE_EXEC,
+                    max_tokens=1500
+                )
+                draft = clean_text_block(refine_resp.choices[0].message.content.strip())
+                storage[session_id]["draft"] = draft
+            except Exception as e:
+                flash(f"Refine failed: {e}", "danger")
+
+        # ---------- Download ----------
+        elif "download" in request.form:
+            doc = Document()
+            doc.add_heading(f"Executive Summary by {company['name'] if company else 'Provider'}", level=0)
+
+            # -------- Executive Summary --------
+            for line in draft.split("\n"):
+                if not line.strip():
+                    continue
+                stripped = line.strip()
+                lower = stripped.lower()
+
+                # Recognize headings
+                if lower.startswith("introduction"):
+                    title = "Introduction"
+                elif lower.startswith("our understanding"):
+                    title = "Our Understanding of Your Goals"
+                elif lower.startswith("our approach"):
+                    title = "Our Approach to Meeting Your Goals"
+                elif lower.startswith("solution overview"):
+                    title = "Solution Overview"
+                elif lower.startswith("how we will deliver"):
+                    title = "How We Will Deliver"
+                elif lower.startswith("why"):
+                    title = f"Why {company['name'] if company else 'Provider'}"
+                elif lower.startswith("closing"):
+                    title = "Closing Call-to-Action"
+                else:
+                    title = None
+
+                if title:
+                    para = doc.add_paragraph(title)
+                    run = para.runs[0]
+                    run.bold = True
+                    run.font.size = Pt(14)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    para.paragraph_format.space_after = Pt(12)
+
+                elif stripped.startswith("- "):  # Bullet point
+                    para = doc.add_paragraph(stripped[2:], style="List Bullet")
+                    para.paragraph_format.space_after = Pt(6)
+
+                else:  # Normal text
+                    para = doc.add_paragraph(stripped)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    para.paragraph_format.space_after = Pt(12)
+
+            # -------- Contact Info --------
+            doc.add_page_break()
+            doc.add_heading("Contact Information", level=1)
+            if company:
+                contact_block = [
+                    f"Email: {company.get('contact_email', 'N/A')}",
+                    f"Phone: {company.get('contact_phone', 'N/A')}",
+                    f"Website: {company.get('website', 'N/A')}"
+                ]
+                for item in contact_block:
+                    para = doc.add_paragraph(item)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    para.paragraph_format.space_after = Pt(6)
+
+            # -------- VSP Section --------
+            doc.add_page_break()
+            doc.add_heading(f"Value Selling Points by {company['name'] if company else 'Provider'}", level=0)
+
+            for line in vsp.split("\n"):
+                if not line.strip():
+                    continue
+                stripped = line.strip()
+                lower = stripped.lower()
+
+                # Recognize headings
+                if lower.startswith("case for change"):
+                    title = "Case for Change"
+                elif lower.startswith("business value"):
+                    title = "Business Value for the Client"
+                elif lower.startswith(company['name'].lower()) or lower.startswith("proposed solution"):
+                    title = f"{company['name']} Proposed Solution"
+                else:
+                    title = None
+
+                if title:
+                    para = doc.add_paragraph(title)
+                    run = para.runs[0]
+                    run.bold = True
+                    run.font.size = Pt(14)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    para.paragraph_format.space_after = Pt(12)
+
+                elif stripped.startswith("- "):  # Bullet point
+                    para = doc.add_paragraph(stripped[2:], style="List Bullet")
+                    para.paragraph_format.space_after = Pt(6)
+
+                else:  # Normal text
+                    para = doc.add_paragraph(stripped)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    para.paragraph_format.space_after = Pt(12)
+
+            # -------- Save File --------
+            tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".docx")
+            doc.save(tmp_file.name)
+            return send_file(tmp_file.name, as_attachment=True, download_name="Executive_Summary.docx")
+
+        # ---------- Finish ----------
+        elif "finish" in request.form:
+            storage.pop(session_id, None)
+            session.clear()
+            flash("Session cleared.", "info")
+            return redirect(url_for("index"))
+
+    # Always render page with updated content
+    return render_template("result.html", draft=draft, vsp=vsp,
+                           context=client_context, company=company, show_vsp=VSP_VISIBLE_IN_UI)
+
+if __name__ == "__main__":
+    init_db()
+    app.run(debug=True, host="0.0.0.0", port=5000)
+
+~_~_~_~_~_~_~_~_~~_~__~_~_~_~_~_~_~_~_~_ guardrails for exe sumamry ~_~_~_~_~_~_~_~_~_~_~
+
+from flask import Flask, render_template, request, send_file, session, redirect, url_for, flash
+import sqlite3
+import os
+import tempfile
+import re
+from docx import Document
+from docx.shared import Pt
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+# OpenAI Python client
+from openai import OpenAI
+
+# ----------------- Config -----------------
+DB_PATH = "companies.db"
+APP_SECRET = os.getenv("FLASK_SECRET")
+HIDE_VSP_FROM_DOCX = True
+VSP_VISIBLE_IN_UI = True     # ✅ now visible in result page
+OPENAI_MODEL = "gpt-4o"
+TEMPERATURE_VSP = 0.6
+MAX_TOKENS_VSP = 1000
+TEMPERATURE_EXEC = 0.7
+MAX_TOKENS_EXEC = 1500
+
+# ----------------- Flask -----------------
+app = Flask(__name__)
+app.secret_key = APP_SECRET
+
+# ----------------- OpenAI -----------------
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"),
+                organization=os.getenv("OPENAI_ORG_ID"))
+
+# ----------------- In-memory storage -----------------
+storage = {}
+
+# ----------------- DB Helpers -----------------
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS companies (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            industry TEXT,
+            services TEXT,
+            differentiators TEXT,
+            contact_email TEXT,
+            contact_phone TEXT,
+            website TEXT,
+            notes TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+
+def insert_company(profile):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute(
+        """INSERT INTO companies 
+        (name, industry, services, differentiators, contact_email, contact_phone, website, notes) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+        (profile.get("name"), profile.get("industry"), profile.get("services"),
+         profile.get("differentiators"), profile.get("contact_email"), profile.get("contact_phone"),
+         profile.get("website"), profile.get("notes"))
+    )
+    conn.commit()
+    company_id = cur.lastrowid
+    conn.close()
+    return company_id
+
+
+def get_companies():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("SELECT id, name, industry FROM companies ORDER BY name")
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
+def get_company(company_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""SELECT id, name, industry, services, differentiators, contact_email, 
+                   contact_phone, website, notes 
+                   FROM companies WHERE id = ?""", (company_id,))
+    row = cur.fetchone()
+    conn.close()
+    if not row:
+        return None
+    keys = ["id", "name", "industry", "services", "differentiators", 
+            "contact_email", "contact_phone", "website", "notes"]
+    return dict(zip(keys, row))
+
+# ----------------- Text cleaning -----------------
+def clean_text_block(text: str) -> str:
+    if not text:
+        return ""
+    text = str(text)
+    text = re.sub(r"\*\*(.*?)\*\*", r"\1", text)
+    text = re.sub(r"\*(.*?)\*", r"\1", text)
+    text = re.sub(r"^#+\s*", "", text, flags=re.MULTILINE)
+    text = re.sub(r"•\s*", "- ", text, flags=re.MULTILINE)
+    text = re.sub(r"\r\n", "\n", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+# ----------------- Guardrail Helpers -----------------
+def extract_vsp_sections(vsp_text: str) -> dict:
+    """Split VSP into sections with key phrases for mirroring."""
+    sections = {
+        "case_for_change": [],
+        "business_value": [],
+        "proposed_solution": []
+    }
+    current = None
+    for line in vsp_text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+
+        lower = line.lower()
+        if "case for change" in lower:
+            current = "case_for_change"
+            continue
+        elif "business value" in lower:
+            current = "business_value"
+            continue
+        elif "proposed solution" in lower or "solution" in lower:
+            current = "proposed_solution"
+            continue
+
+        if current and line.startswith("- "):
+            phrase = line[2:].strip()
+            sections[current].append(phrase)
+
+    return sections
+
+
+def enforce_vsp_terms_in_exe(exe_text: str, vsp_text: str, provider_name: str) -> str:
+    """Ensure critical VSP terms appear in the Executive Summary naturally."""
+    vsp_sections = extract_vsp_sections(vsp_text)
+
+    mapping = {
+        "our understanding of your goals": "case_for_change",
+        "our approach to meeting your goals": "business_value",
+        "solution overview": "business_value",
+        "how we will deliver": "proposed_solution",
+        f"why {provider_name.lower()}": "proposed_solution"
+    }
+
+    enforced = exe_text
+
+    for exe_section, vsp_key in mapping.items():
+        phrases = vsp_sections.get(vsp_key, [])
+        if not phrases:
+            continue
+
+        # Locate the section
+        pattern = re.compile(rf"({exe_section}.*?)(?=\n[A-Z])", re.IGNORECASE | re.DOTALL)
+        match = pattern.search(enforced)
+
+        if match:
+            section_text = match.group(1)
+            missing = [p for p in phrases if p.lower() not in section_text.lower()]
+
+            if missing:
+                additions = " ".join([f"This also ensures {p.lower()}." for p in missing])
+                if section_text.endswith("."):
+                    new_section = section_text + " " + additions
+                else:
+                    new_section = section_text + ". " + additions
+                enforced = enforced.replace(section_text, new_section)
+
+    return enforced
+
+# ----------------- Prompts -----------------
+EXEC_PROMPT_TEMPLATE = """
+You are a senior management consultant. Using the provider profile and VSP, produce a polished,
+client-ready Executive Summary in well formatted text without using any formatting markings like ## or **. Do NOT use Markdown or placeholders. Use a persuasive consulting tone.
+DONT CLAIM TITLES THAT WERENT explicitly mentioned in the input given for both client and provider  .(eg.a leader , the top provider , so on)
+Refer VSP points generated(for vocab or terms). paraphrase the content to make it sound more personalised and organisation specific.
+
+Inputs:
+- PROVIDER_PROFILE:
+{provider_profile}
+- VSP:
+{vsp_resp}
+- Website of provider:
+{website}
+- CLIENT_CONTEXT:
+{client_context}
+
+Requirements:
+- Aim for 600-900 words total.
+-Our understanding of your goals must follow this:current client industry pain points and what the client might be explicitly looking for as an cope-up mechanism to highlight n improve visibility in market (refer case for change from vsp and mirror key or interested points exactly)
+
+-introduction must be concised around 2-3 lines and talk about the client and provider in general .
+- Some sections must use bullets:
+  - Our Approach to Meeting Your Goals → bullets well aligned with the proposed solution targeting the clients goals
+  - How We Will Deliver → bullets that suite the specific client and solution (3-4) must look appealing and needful for the client
+  - Solution Overview → bullets for different parts/steps of the solution proposed 
+  - Why {provider_name} → bullets for differentiators, credentials (needs to be tailored to suite the client)
+- Other sections remain detailed paragraphs (2–3 per section).
+- Use '-' for bullets, not '*' or numbering.
+- Do not invent unverified facts; rely on provider profile and client context.
+- Research and include 3–4 current industry-specific insights, challenges, or opportunities relevant to client industry. 
+  These must be seamlessly integrated into the executive summary.
+- **Explicitly mirror critical phrases and business value points from the VSP (e.g., ROI, EBITDA, margins, first-year value, risk reduction, compliance standards like GDPR/HIPAA/ISO 27001, patient satisfaction, revenue growth, faster time-to-market) in the corresponding Executive Summary sections without diluting or omitting them.**
+
+Sections (in order):
+1) Introduction
+2) Our Understanding of Your Goals
+3) Our Approach to Meeting Your Goals
+4) Solution Overview
+5) How We Will Deliver
+6) Why {provider_name}
+7) Closing Call-to-Action
+"""
+
+# ----------------- Routes -----------------
+@app.route("/setup", methods=["GET", "POST"])
+def setup():
+    if request.method == "POST":
+        profile = {
+            "name": request.form.get("name", "").strip(),
+            "industry": request.form.get("industry", "").strip(),
+            "services": request.form.get("services", "").strip(),
+            "differentiators": request.form.get("differentiators", "").strip(),
+            "contact_email": request.form.get("contact_email", "").strip(),
+            "contact_phone": request.form.get("contact_phone", "").strip(),
+            "website": request.form.get("website", "").strip(),
+            "notes": request.form.get("notes", "").strip()
+        }
+        if not profile["name"]:
+            flash("Company name is required", "warning")
+            return render_template("setup.html", profile=profile)
+        company_id = insert_company(profile)
+        flash(f"Company profile '{profile['name']}' created.", "success")
+        return redirect(url_for("index", company_id=company_id))
+    return render_template("setup.html")
+
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    companies = get_companies()
+    default_company_id = request.args.get("company_id")
+    if request.method == "POST":
+        company_id = int(request.form.get("company_id"))
+        company = get_company(company_id)
+        if not company:
+            flash("Selected company not found.", "danger")
+            return redirect(url_for("setup"))
+
+        client_name = request.form.get("client_name", "Client").strip()
+        client_industry = request.form.get("client_industry", "").strip()
+        client_goals = request.form.get("client_goals", "").strip()
+        proposal_modules = request.form.get("proposal_modules", "").strip()
+        execution_model = request.form.get("execution_model", "").strip()
+        extra_notes = request.form.get("extra_notes", "").strip()
+
+        client_context = f"""
+Client Name: {client_name}
+Client Industry: {client_industry}
+Goals/Challenges: {client_goals}
+Proposed Modules: {proposal_modules}
+Execution Model: {execution_model}
+Additional Notes: {extra_notes}
+""".strip()
+
+        session_id = os.urandom(8).hex()
+        session["id"] = session_id
+        storage[session_id] = {"client_context": client_context, "draft": "", "vsp": "", "company_id": company_id}
+
+        provider_profile_text = f"{company['name']} (Industry: {company['industry']}). Services: {company['services']}. Differentiators: {company['differentiators']}. Website: {company['website']}. Contact: {company['contact_email']} | {company['contact_phone']}."
+        
+        # ✅ Generate VSP first
+        vsp_prompt  = f"""
+You are a senior management consultant. Based on the provider profile and client context,
+generate a Value Selling Points (VSP) document in well formatted text. 
+Do not use * or # or any other formatting symbols symbols at all 
+Do NOT use Markdown or placeholders. Keep it  persuasive, and structured exactly as below.
+Under each section generate content in  bullets as mentioned in description .
+
+Sections (use headings exactly as written):
+
+1) Case for Change
+- Describe why this proposition is necessary
+- Define why the client should do this now to achieve compelling business outcomes
+- Articulate key business issues
+
+2) Business Value for the Client
+- Map the key business benefits to the key business issues
+- Focus on hard, tangible outcomes: revenue, EBITDA, margins, operating costs, working capital, faster time to market, etc.
+- Ensure first year value to client
+- Link the benefits to closing the client value gaps identified in the case for change
+
+3) {company['name']} Proposed Solution
+- Describe the proposed solution
+- Define the unique and innovative parts of the solution, and how it enables business value
+- Articulate {company['name']} benefits in terms of delivering faster outcomes and reducing risk
+
+Inputs:
+- PROVIDER_PROFILE:
+{provider_profile_text}
+
+- CLIENT_CONTEXT:
+{client_context}
+"""
+        try:
+            vsp_resp = client.chat.completions.create(
+                model=OPENAI_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are an expert proposal writer."},
+                    {"role": "user", "content": vsp_prompt}
+                ],
+                temperature=TEMPERATURE_VSP,
+                max_tokens=MAX_TOKENS_VSP
+            )
+            vsp_text = clean_text_block(vsp_resp.choices[0].message.content.strip())
+        except Exception as e:
+            vsp_text = f"VSP generation failed: {e}"
+
+        storage[session_id]["vsp"] = vsp_text
+
+        # ✅ Now generate Executive Summary, feeding VSP into it
+        exec_prompt = EXEC_PROMPT_TEMPLATE.format(
+            provider_profile=provider_profile_text,
+            client_context=client_context,
+            provider_name=company['name'],
+            website=company["website"],
+            vsp_resp=vsp_text
+        )
+
+        try:
+            exec_resp = client.chat.completions.create(
+                model=OPENAI_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are a senior management consultant writing client-ready executive summaries."},
+                    {"role": "user", "content": exec_prompt}
+                ],
+                temperature=TEMPERATURE_EXEC,
+                max_tokens=MAX_TOKENS_EXEC
+            )
+            exec_text = clean_text_block(exec_resp.choices[0].message.content.strip())
+            
+            # ✅ Guardrail: enforce VSP terms into Executive Summary
+            exec_text = enforce_vsp_terms_in_exe(exec_text, vsp_text, company['name'])
+
+        except Exception as e:
+            exec_text = f"Executive Summary generation failed: {e}"
+
+        storage[session_id]["draft"] = exec_text
+
+        return redirect(url_for("result"))
+
+    return render_template("index.html", companies=companies, default_company_id=default_company_id)
+
+# ----------------- App init -----------------
+@app.route("/result", methods=["GET", "POST"])
+def result():
+    session_id = session.get("id")
+    if not session_id or session_id not in storage:
+        flash("No active proposal found. Please generate one.", "warning")
+        return redirect(url_for("index"))
+
+    data = storage[session_id]
+    draft = data.get("draft", "")
+    vsp = data.get("vsp", "")
+    client_context = data.get("client_context", "")
+    company_id = data.get("company_id")
+    company = get_company(company_id) if company_id else None
+
+    if request.method == "POST":
+        # ---------- Refine ----------
+        if "refine" in request.form:
+            refine_input = request.form.get("refine_prompt", "").strip()
+            if not refine_input:
+                flash("Refine instructions cannot be empty.", "warning")
+                return render_template("result.html", draft=draft, vsp=vsp,
+                                       context=client_context, company=company, show_vsp=VSP_VISIBLE_IN_UI)
+
+            refine_prompt = f"""
+Refine the following Executive Summary applying these instructions exactly:
+{refine_input}
+
+Current Executive Summary:
+{draft}
+
+Rules:
+- Keep structure intact (Intro, Goals, Approach, Solution, Delivery, Why Provider, Closing)
+- Expand sections where appropriate, do not shorten unless requested
+- Use '-' for bullets
+- Do NOT add Markdown or placeholders
+"""
+            try:
+                refine_resp = client.chat.completions.create(
+                    model=OPENAI_MODEL,
+                    messages=[
+                        {"role": "system", "content": "You are a professional consultant refining executive summaries."},
+                        {"role": "user", "content": refine_prompt}
+                    ],
+                    temperature=TEMPERATURE_EXEC,
+                    max_tokens=1500
+                )
+                draft = clean_text_block(refine_resp.choices[0].message.content.strip())
+                draft = enforce_vsp_terms_in_exe(draft, vsp, company['name'])  # ✅ Guardrail again
+                storage[session_id]["draft"] = draft
+            except Exception as e:
+                flash(f"Refine failed: {e}", "danger")
+
+        # ---------- Download ----------
+        elif "download" in request.form:
+            doc = Document()
+            doc.add_heading(f"Executive Summary by {company['name'] if company else 'Provider'}", level=0)
+
+            # -------- Executive Summary --------
+            for line in draft.split("\n"):
+                if not line.strip():
+                    continue
+                stripped = line.strip()
+                lower = stripped.lower()
+
+                # Recognize headings
+                if lower.startswith("introduction"):
+                    title = "Introduction"
+                elif lower.startswith("our understanding"):
+                    title = "Our Understanding of Your Goals"
+                elif lower.startswith("our approach"):
+                    title = "Our Approach to Meeting Your Goals"
+                elif lower.startswith("solution overview"):
+                    title = "Solution Overview"
+                elif lower.startswith("how we will deliver"):
+                    title = "How We Will Deliver"
+                elif lower.startswith("why"):
+                    title = f"Why {company['name'] if company else 'Provider'}"
+                elif lower.startswith("closing"):
+                    title = "Closing Call-to-Action"
+                else:
+                    title = None
+
+                if title:
+                    para = doc.add_paragraph(title)
+                    run = para.runs[0]
+                    run.bold = True
+                    run.font.size = Pt(14)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    para.paragraph_format.space_after = Pt(12)
+
+                elif stripped.startswith("- "):  # Bullet point
+                    para = doc.add_paragraph(stripped[2:], style="List Bullet")
+                    para.paragraph_format.space_after = Pt(6)
+
+                else:  # Normal text
+                    para = doc.add_paragraph(stripped)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    para.paragraph_format.space_after = Pt(12)
+
+            # -------- Contact Info --------
+            doc.add_page_break()
+            doc.add_heading("Contact Information", level=1)
+            if company:
+                contact_block = [
+                    f"Email: {company.get('contact_email', 'N/A')}",
+                    f"Phone: {company.get('contact_phone', 'N/A')}",
+                    f"Website: {company.get('website', 'N/A')}"
+                ]
+                for item in contact_block:
+                    para = doc.add_paragraph(item)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    para.paragraph_format.space_after = Pt(6)
+
+            # -------- VSP Section --------
+            doc.add_page_break()
+            doc.add_heading(f"Value Selling Points by {company['name'] if company else 'Provider'}", level=0)
+
+            for line in vsp.split("\n"):
+                if not line.strip():
+                    continue
+                stripped = line.strip()
+                lower = stripped.lower()
+
+                # Recognize headings
+                if lower.startswith("case for change"):
+                    title = "Case for Change"
+                elif lower.startswith("business value"):
+                    title = "Business Value for the Client"
+                elif lower.startswith(company['name'].lower()) or lower.startswith("proposed solution"):
+                    title = f"{company['name']} Proposed Solution"
+                else:
+                    title = None
+
+                if title:
+                    para = doc.add_paragraph(title)
+                    run = para.runs[0]
+                    run.bold = True
+                    run.font.size = Pt(14)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    para.paragraph_format.space_after = Pt(12)
+
+                elif stripped.startswith("- "):  # Bullet point
+                    para = doc.add_paragraph(stripped[2:], style="List Bullet")
+                    para.paragraph_format.space_after = Pt(6)
+
+                else:  # Normal text
+                    para = doc.add_paragraph(stripped)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    para.paragraph_format.space_after = Pt(12)
+
+            # -------- Save File --------
+            tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".docx")
+            doc.save(tmp_file.name)
+            return send_file(tmp_file.name, as_attachment=True, download_name="Executive_Summary.docx")
+
+        # ---------- Finish ----------
+        elif "finish" in request.form:
+            storage.pop(session_id, None)
+            session.clear()
+            flash("Session cleared.", "info")
+            return redirect(url_for("index"))
+
+    return render_template("result.html", draft=draft, vsp=vsp,
+                           context=client_context, company=company, show_vsp=VSP_VISIBLE_IN_UI)
+
+if __name__ == "__main__":
+    init_db()
+    app.run(debug=True, host="0.0.0.0", port=5000)
+
+-#-------------------------------------------THE ONE VERSION THAT EXHAUTSED MY GPT------------------------------------#-
+
+app.py
+
+from flask import Flask, render_template, request, send_file, session, redirect, url_for, flash
+import sqlite3
+import os
+import tempfile
+import re
+from docx import Document
+from docx.shared import Pt
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+# OpenAI Python client
+from openai import OpenAI
+
+# ----------------- Config -----------------
+DB_PATH = "companies.db"
+APP_SECRET = os.getenv("FLASK_SECRET")
+HIDE_VSP_FROM_DOCX = True
+VSP_VISIBLE_IN_UI = True     # ✅ visible in result page
+OPENAI_MODEL = "gpt-4o"      # ✅ switched to GPT-4o
+TEMPERATURE_VSP = 0.7
+MAX_TOKENS_VSP = 1700
+TEMPERATURE_EXEC = 0.7
+MAX_TOKENS_EXEC = 1700
+
+# ----------------- Flask -----------------
+app = Flask(__name__)
+app.secret_key = APP_SECRET
+
+# ----------------- OpenAI -----------------
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"),
+                organization=os.getenv("OPENAI_ORG_ID"))
+
+# ----------------- In-memory storage -----------------
+storage = {}
+
+# ----------------- DB Helpers -----------------
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS companies (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            industry TEXT,
+            services TEXT,
+            differentiators TEXT,
+            contact_email TEXT,
+            contact_phone TEXT,
+            website TEXT,
+            notes TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+def insert_company(profile):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute(
+        """INSERT INTO companies 
+        (name, industry, services, differentiators, contact_email, contact_phone, website, notes) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+        (profile.get("name"), profile.get("industry"), profile.get("services"),
+         profile.get("differentiators"), profile.get("contact_email"), profile.get("contact_phone"),
+         profile.get("website"), profile.get("notes"))
+    )
+    conn.commit()
+    company_id = cur.lastrowid
+    conn.close()
+    return company_id
+
+def get_companies():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("SELECT id, name, industry FROM companies ORDER BY name")
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+def get_company(company_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""SELECT id, name, industry, services, differentiators, contact_email, 
+                   contact_phone, website, notes 
+                   FROM companies WHERE id = ?""", (company_id,))
+    row = cur.fetchone()
+    conn.close()
+    if not row:
+        return None
+    keys = ["id", "name", "industry", "services", "differentiators", 
+            "contact_email", "contact_phone", "website", "notes"]
+    return dict(zip(keys, row))
+
+# ----------------- Text cleaning -----------------
+def clean_text_block(text: str) -> str:
+    if not text:
+        return ""
+    text = str(text)
+    text = re.sub(r"\*\*(.*?)\*\*", r"\1", text)
+    text = re.sub(r"\*(.*?)\*", r"\1", text)
+    text = re.sub(r"^#+\s*", "", text, flags=re.MULTILINE)
+    text = re.sub(r"•\s*", "- ", text, flags=re.MULTILINE)
+    text = re.sub(r"\r\n", "\n", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+# ----------------- Prompts -----------------
+
+# ✅ Executive Summary (weaving story around VSP)
+EXEC_PROMPT_TEMPLATE = """
+You are a senior management consultant. Using the provider profile and the VSP, produce a polished,
+client-ready Executive Summary in well formatted plain text (no Markdown, no ##, no **). 
+Tone must explicitly mirror the business-driven, persuasive style of the VSP — sharp, value-focused, and executive-level.
+Any stats in VSP to be accommodated in Executive summary.
+
+Requirements:
+- Aim for 600-900 words total.
+- Introduction must be concise (2–3 sentences):
+  - State the proposal clearly (solution being offered)
+  - Tie it directly to the client’s use case and goals
+  - End with why it matters now (strategic impact)
+
+- Our Understanding of Your Goals must:
+  - Highlight current strengths and industry trends 
+  - Show what the client is aiming to achieve or improve (frame as opportunity, not weakness)
+  - Strictly no assumptions on what the current solution the client uses unless until you have the info from any trusted source or already mentioned in input 
+  - End with a single line that our proposed solution enables this journey
+
+- Executive Summary must weave the exact phrases and business vocabulary from the VSP into ALL sections.
+  - For Solution Overview, How We Will Deliver, and Why {provider_name}, do not dilute tone or become generic.
+  - Every bullet point must map directly to a business value or differentiator mentioned in the VSP.
+  - Always frame delivery actions as business promises, not just tasks (impact → outcome).
+
+- Some sections must use well-explained bullet points:
+  - Our Approach to Meeting Your Goals → bullets aligned to client goals and business value
+  - How We Will Deliver → 3–4 bullets showing delivery clarity AND measurable business outcomes
+  - Solution Overview → bullets outlining key solution modules, each tied back to a VSP phrase
+  - Why {provider_name} → bullets for differentiators, credentials, and client relevance (always tied to business value, not generic qualities)
+
+- Other sections must remain detailed paragraphs (2–3 per section) using VSP’s executive-level tone and vocabulary.
+
+- Always use "-" for bullets (no numbering, *, or formatting).
+- Do not invent unverified facts. Only rely on provider profile, client context, and VSP.
+- Use “opportunity / readiness / potential” framing, not “problem / weakness / lacking.”
+- Research and include 3–4 industry-specific insights, challenges, or opportunities relevant to the client’s sector, and blend them naturally into the narrative.
+
+Sections (in order):
+1) Introduction
+2) Our Understanding of Your Goals
+3) Our Approach to Meeting Your Goals
+4) Solution Overview
+5) How We Will Deliver
+6) Why {provider_name}
+7) Closing Call-to-Action
+
+Inputs:
+- PROVIDER_PROFILE:
+{provider_profile}
+- VSP:
+{vsp_resp}
+- Website of provider:
+{website}
+- CLIENT_CONTEXT:
+{client_context}
+"""
+
+
+# ✅ VSP (reusable crisp phrases)
+def get_vsp_prompt(company, provider_profile_text, client_context):
+    return f"""
+You are a senior management consultant. Based on the provider profile and client context,
+generate a Value Selling Points (VSP) document.
+
+Guidelines:
+- Write in clear, client-ready business language.
+- DO NOT use Markdown, symbols (#, *, **), or placeholders.
+- Each bullet must be a strong business phrase that can be reused directly in an Executive Summary.
+- Keep bullets crisp but meaningful (1–2 lines max).
+- Structure exactly as below.
+- If no info on the clients current solution ; assume whatver we are giving is an evolvement (dont assume worst for the clients current scenerio)
+
+Sections (use headings exactly as written):
+
+1) Case for Change
+- State why this proposition is necessary
+- Explain urgency (why now)
+- Identify key business issues
+
+2) Business Value for the Client
+- Map business benefits to those issues
+- Focus on hard, tangible outcomes: revenue, EBITDA, margins, costs, working capital, faster time to market
+- Ensure at least one phrase showing measurable first-year value
+- Link benefits clearly to gaps mentioned in Case for Change
+
+3) {company['name']} Proposed Solution
+- Describe proposed solution in phrases
+- Emphasize unique/innovative parts of the solution
+- Show how it enables business value
+- Highlight {company['name']}’s role in delivering faster outcomes and reducing risk
+
+Inputs:
+- PROVIDER_PROFILE:
+{provider_profile_text}
+
+- CLIENT_CONTEXT:
+{client_context}
+"""
+
+# ----------------- Routes -----------------
+@app.route("/setup", methods=["GET", "POST"])
+def setup():
+    if request.method == "POST":
+        profile = {
+            "name": request.form.get("name", "").strip(),
+            "industry": request.form.get("industry", "").strip(),
+            "services": request.form.get("services", "").strip(),
+            "differentiators": request.form.get("differentiators", "").strip(),
+            "contact_email": request.form.get("contact_email", "").strip(),
+            "contact_phone": request.form.get("contact_phone", "").strip(),
+            "website": request.form.get("website", "").strip(),
+            "notes": request.form.get("notes", "").strip()
+        }
+        if not profile["name"]:
+            flash("Company name is required", "warning")
+            return render_template("setup.html", profile=profile)
+        company_id = insert_company(profile)
+        flash(f"Company profile '{profile['name']}' created.", "success")
+        return redirect(url_for("index", company_id=company_id))
+    return render_template("setup.html")
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    companies = get_companies()
+    default_company_id = request.args.get("company_id")
+    if request.method == "POST":
+        company_id = int(request.form.get("company_id"))
+        company = get_company(company_id)
+        if not company:
+            flash("Selected company not found.", "danger")
+            return redirect(url_for("setup"))
+
+        client_name = request.form.get("client_name", "Client").strip()
+        client_industry = request.form.get("client_industry", "").strip()
+        client_goals = request.form.get("client_goals", "").strip()
+        proposal_modules = request.form.get("proposal_modules", "").strip()
+        execution_model = request.form.get("execution_model", "").strip()
+        extra_notes = request.form.get("extra_notes", "").strip()
+
+        client_context = f"""
+Client Name: {client_name}
+Client Industry: {client_industry}
+Goals/Challenges: {client_goals}
+Proposed Modules: {proposal_modules}
+Execution Model: {execution_model}
+Additional Notes: {extra_notes}
+""".strip()
+
+        session_id = os.urandom(8).hex()
+        session["id"] = session_id
+        storage[session_id] = {"client_context": client_context, "draft": "", "vsp": "", "company_id": company_id}
+
+        provider_profile_text = f"{company['name']} (Industry: {company['industry']}). Services: {company['services']}. Differentiators: {company['differentiators']}. Website: {company['website']}. Contact: {company['contact_email']} | {company['contact_phone']}."
+
+        # ✅ Generate VSP
+        vsp_prompt = get_vsp_prompt(company, provider_profile_text, client_context)
+        try:
+            vsp_resp = client.chat.completions.create(
+                model=OPENAI_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are an expert proposal writer."},
+                    {"role": "user", "content": vsp_prompt}
+                ],
+                temperature=TEMPERATURE_VSP,
+                max_completion_tokens=MAX_TOKENS_VSP
+            )
+            vsp_text = clean_text_block(vsp_resp.choices[0].message.content.strip())
+        except Exception as e:
+            vsp_text = f"VSP generation failed: {e}"
+
+        storage[session_id]["vsp"] = vsp_text
+
+        # ✅ Generate Executive Summary using VSP
+        exec_prompt = EXEC_PROMPT_TEMPLATE.format(
+            provider_profile=provider_profile_text,
+            client_context=client_context,
+            provider_name=company['name'],
+            website=company["website"],
+            vsp_resp=vsp_text
+        )
+
+        try:
+            exec_resp = client.chat.completions.create(
+                model=OPENAI_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are a senior management consultant writing client-ready executive summaries."},
+                    {"role": "user", "content": exec_prompt}
+                ],
+                temperature=TEMPERATURE_EXEC,
+                max_completion_tokens=MAX_TOKENS_EXEC
+            )
+            exec_text = clean_text_block(exec_resp.choices[0].message.content.strip())
+        except Exception as e:
+            exec_text = f"Executive Summary generation failed: {e}"
+
+        storage[session_id]["draft"] = exec_text
+
+        return redirect(url_for("result"))
+
+    return render_template("index.html", companies=companies, default_company_id=default_company_id)
+
+# ----------------- Result Route -----------------
+@app.route("/result", methods=["GET", "POST"])
+def result():
+    session_id = session.get("id")
+    if not session_id or session_id not in storage:
+        flash("No active proposal found. Please generate one.", "warning")
+        return redirect(url_for("index"))
+
+    data = storage[session_id]
+    draft = data.get("draft", "")
+    vsp = data.get("vsp", "")
+    client_context = data.get("client_context", "")
+    company_id = data.get("company_id")
+    company = get_company(company_id) if company_id else None
+
+    if request.method == "POST":
+
+        # ---------- Refine ----------
+        if "refine" in request.form:
+            refine_input = request.form.get("refine_prompt", "").strip()
+            if not refine_input:
+                flash("Refine instructions cannot be empty.", "warning")
+                return render_template("result.html", draft=draft, vsp=vsp,
+                                       context=client_context, company=company, show_vsp=VSP_VISIBLE_IN_UI)
+
+            refine_prompt = f"""
+Refine the following Executive Summary applying these instructions exactly:
+{refine_input}
+
+Current Executive Summary:
+{draft}
+
+Rules:
+- Keep structure intact (Intro, Goals, Approach, Solution, Delivery, Why Provider, Closing)
+- Expand sections where appropriate, do not shorten unless requested
+- Use '-' for bullets
+- Do NOT add Markdown or placeholders
+"""
+            try:
+                refine_resp = client.chat.completions.create(
+                    model=OPENAI_MODEL,
+                    messages=[
+                        {"role": "system", "content": "You are a professional consultant refining executive summaries."},
+                        {"role": "user", "content": refine_prompt}
+                    ],
+                    temperature=TEMPERATURE_EXEC,
+                    max_tokens=1500
+                )
+                draft = clean_text_block(refine_resp.choices[0].message.content.strip())
+                storage[session_id]["draft"] = draft
+            except Exception as e:
+                flash(f"Refine failed: {e}", "danger")
+
+        # ---------- Download ----------
+        elif "download" in request.form:
+            doc = Document()
+            doc.add_heading(f"Executive Summary by {company['name'] if company else 'Provider'}", level=0)
+
+            # -------- Executive Summary --------
+            for line in draft.split("\n"):
+                if not line.strip():
+                    continue
+                stripped = line.strip()
+                lower = stripped.lower()
+
+                # Recognize headings
+                if lower.startswith("introduction"):
+                    title = "Introduction"
+                elif lower.startswith("our understanding"):
+                    title = "Our Understanding of Your Goals"
+                elif lower.startswith("our approach"):
+                    title = "Our Approach to Meeting Your Goals"
+                elif lower.startswith("solution overview"):
+                    title = "Solution Overview"
+                elif lower.startswith("how we will deliver"):
+                    title = "How We Will Deliver"
+                elif lower.startswith("why"):
+                    title = f"Why {company['name'] if company else 'Provider'}"
+                elif lower.startswith("closing"):
+                    title = "Closing Call-to-Action"
+                else:
+                    title = None
+
+                if title:
+                    para = doc.add_paragraph(title)
+                    run = para.runs[0]
+                    run.bold = True
+                    run.font.size = Pt(14)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    para.paragraph_format.space_after = Pt(12)
+
+                elif stripped.startswith("- "):  # Bullet point
+                    para = doc.add_paragraph(stripped[2:], style="List Bullet")
+                    para.paragraph_format.space_after = Pt(6)
+
+                else:  # Normal text
+                    para = doc.add_paragraph(stripped)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    para.paragraph_format.space_after = Pt(12)
+
+            # -------- Contact Info --------
+            
+            doc.add_heading("Contact Information", level=1)
+            if company:
+                contact_block = [
+                    f"Email: {company.get('contact_email', 'N/A')}",
+                    f"Phone: {company.get('contact_phone', 'N/A')}",
+                    f"Website: {company.get('website', 'N/A')}"
+                ]
+                for item in contact_block:
+                    para = doc.add_paragraph(item)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    para.paragraph_format.space_after = Pt(6)
+
+            # -------- VSP Section --------
+            doc.add_page_break()
+            doc.add_heading(f"Value Selling Points by {company['name'] if company else 'Provider'}", level=0)
+
+            for line in vsp.split("\n"):
+                if not line.strip():
+                    continue
+                stripped = line.strip()
+                lower = stripped.lower()
+
+                # Recognize headings
+                if lower.startswith("case for change"):
+                    title = "Case for Change"
+                elif lower.startswith("business value"):
+                    title = "Business Value for the Client"
+                elif lower.startswith(company['name'].lower()) or lower.startswith("proposed solution"):
+                    title = f"{company['name']} Proposed Solution"
+                else:
+                    title = None
+
+                if title:
+                    para = doc.add_paragraph(title)
+                    run = para.runs[0]
+                    run.bold = True
+                    run.font.size = Pt(14)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    para.paragraph_format.space_after = Pt(12)
+
+                elif stripped.startswith("- "):  # Bullet point
+                    para = doc.add_paragraph(stripped[2:], style="List Bullet")
+                    para.paragraph_format.space_after = Pt(6)
+
+                else:  # Normal text
+                    para = doc.add_paragraph(stripped)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    para.paragraph_format.space_after = Pt(12)
+
+            # -------- Save File --------
+            tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".docx")
+            doc.save(tmp_file.name)
+            return send_file(tmp_file.name, as_attachment=True, download_name="Executive_Summary.docx")
+
+        # ---------- Finish ----------
+        elif "finish" in request.form:
+            storage.pop(session_id, None)
+            session.clear()
+            flash("Session cleared.", "info")
+            return redirect(url_for("index"))
+
+    return render_template("result.html", draft=draft, vsp=vsp,
+                           context=client_context, company=company, show_vsp=VSP_VISIBLE_IN_UI)
+
+if __name__ == "__main__":
+    init_db()
+    app.run(debug=True, host="0.0.0.0", port=5000)
+
+SETUP.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Provider Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f5f7fa; }
+        .card { border-radius: 12px; }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="card shadow-sm p-4">
+        <h2 class="mb-4 text-center">Create Provider Profile</h2>
+
+        <form method="POST">
+            <!-- Company Name -->
+            <div class="mb-3">
+                <label class="form-label">Company Name *</label>
+                <input type="text" name="name" class="form-control" required>
+            </div>
+
+            <!-- Industry -->
+            <div class="mb-3">
+                <label class="form-label">Industry</label>
+                <input type="text" name="industry" class="form-control">
+            </div>
+
+            <!-- Services -->
+            <div class="mb-3">
+                <label class="form-label">Services Offered</label>
+                <textarea name="services" class="form-control" rows="3"></textarea>
+            </div>
+
+            <!-- Differentiators -->
+            <div class="mb-3">
+                <label class="form-label">Key Differentiators</label>
+                <textarea name="differentiators" class="form-control" rows="3"></textarea>
+            </div>
+
+            <!-- Contact Email -->
+            <div class="mb-3">
+                <label class="form-label">Contact Email</label>
+                <input type="email" name="contact_email" class="form-control">
+            </div>
+
+            <!-- Contact Phone -->
+            <div class="mb-3">
+                <label class="form-label">Contact Phone</label>
+                <input type="text" name="contact_phone" class="form-control">
+            </div>
+
+            <!-- Website Link -->
+            <div class="mb-3">
+                <label class="form-label">Website Link</label>
+                <input type="url" name="website" class="form-control" placeholder="https://example.com">
+            </div>
+
+            <!-- Notes -->
+            <div class="mb-3">
+                <label class="form-label">Additional Notes</label>
+                <textarea name="notes" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary px-4">Save Profile</button>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary px-4">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+index.html
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>VDP Executive Summary Generator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body { 
+      background: linear-gradient(180deg,#f9fafc,#f1f5f9); 
+      font-family: "Inter", sans-serif;
+    }
+    .card { 
+      border-radius: 16px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .section-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: .75rem;
+      color: #374151;
+    }
+    .form-label {
+      font-weight: 500;
+      color: #4b5563;
+    }
+    .btn-primary {
+      border-radius: 10px;
+      padding: 0.6rem 1.5rem;
+      font-weight: 500;
+    }
+    .header-bar {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.04);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .tip-box {
+      background: #f3f4f6;
+      border-radius: 10px;
+      padding: .75rem 1rem;
+      font-size: .9rem;
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+<div class="container py-4">
+
+  <!-- Header -->
+  <div class="header-bar d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><i class="bi bi-file-earmark-text"></i> VDP Executive Summary Generator</h2>
+    <a href="/setup" class="btn btn-outline-primary btn-sm">
+      <i class="bi bi-building-add"></i> New Provider Profile
+    </a>
+  </div>
+
+  <!-- Form -->
+  <form method="POST">
+    <div class="card p-4 mb-4">
+      <div class="section-title"><i class="bi bi-building"></i> Provider & Client Info</div>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Select Provider</label>
+          <select class="form-select provider-select" name="company_id" required>
+            {% for id, name, industry in companies %}
+              <option value="{{ id }}" {% if default_company_id and default_company_id|int == id %}selected{% endif %}>
+                {{ name }} — {{ industry }}
+              </option>
+            {% else %}
+              <option disabled>No providers found</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Client Name</label>
+          <input class="form-control" name="client_name" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Client Industry</label>
+          <input class="form-control" name="client_industry">
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-4 mb-4">
+      <div class="section-title"><i class="bi bi-flag"></i> Client Goals & Proposal</div>
+      <div class="mb-3">
+        <label class="form-label">Client Goals / Challenges</label>
+        <textarea class="form-control" name="client_goals" rows="3" placeholder="Summarize client goals or paste RFP text..."></textarea>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Proposed Solutions / Modules</label>
+          <textarea class="form-control" name="proposal_modules" rows="2"></textarea>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Execution Model</label>
+          <textarea class="form-control" name="execution_model" rows="2"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-4 mb-4">
+      <div class="section-title"><i class="bi bi-pencil-square"></i> Additional Notes</div>
+      <textarea class="form-control" name="extra_notes" rows="2"></textarea>
+    </div>
+
+    <div class="text-end">
+      <button class="btn btn-primary"><i class="bi bi-magic"></i> Generate Executive Summary</button>
+    </div>
+  </form>
+
+  <div class="tip-box">
+    <i class="bi bi-lightbulb"></i> Tip: Paste verified client text (like RFP snippets or website links) in client goals for the most accurate and aligned output.
+  </div>
+
+</div>
+</body>
+</html>
+
+result.html
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Executive Summary Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h2 class="mb-4">Generated Executive Summary</h2>
+
+    <!-- Executive Summary -->
+    <div class="card p-4 shadow-sm mb-4">
+        <h5></h5>
+        <pre style="white-space: pre-wrap; font-size: 1rem;">{{ draft }}</pre>
+    </div>
+
+    <!-- Value Selling Points -->
+   <div class="card p-4 shadow-sm mb-4">
+        <h5>Value Selling Points </h5>
+        <pre style="white-space: pre-wrap; font-size: 1rem;">{{ vsp }}</pre>
+    </div>
+
+    <!-- Client Context -->
+    <div class="card p-4 shadow-sm mb-4">
+        <h5>Client Context</h5>
+        <pre style="white-space: pre-wrap; font-size: 1rem;">{{ context }}</pre>
+    </div>
+
+    <!-- Action Form -->
+    <form method="POST" class="mt-4">
+        <div class="mb-3">
+            <label class="form-label">Refine Output</label>
+            <textarea name="refine_prompt" class="form-control" rows="3"></textarea>
+        </div>
+        <button type="submit" name="refine" class="btn btn-secondary">Refine</button>
+        <button type="submit" name="download" class="btn btn-success">Download DOCX</button>
+        <button type="submit" name="finish" class="btn btn-danger">Start Over</button>
+    </form>
+</div>
+</body>
+</html>
+
+-#--------------------------------DIVIDE N CONQUER apprach section generate --------------------------------------#-
+
+from flask import Flask, render_template, request, send_file, session, redirect, url_for, flash
+import sqlite3
+import os
+import tempfile
+import re
+from docx import Document
+from docx.shared import Pt
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+# OpenAI Python client
+from openai import OpenAI
+
+# ----------------- Config -----------------
+DB_PATH = "companies.db"
+APP_SECRET = os.getenv("FLASK_SECRET", "dev-secret")
+HIDE_VSP_FROM_DOCX = True          # ✅ now respected in export
+VSP_VISIBLE_IN_UI = True           # ✅ visible in result page
+OPENAI_MODEL = "gpt-4o"
+TEMPERATURE_VSP = 0.9
+MAX_TOKENS_VSP = 1700
+TEMPERATURE_EXEC = 0.9
+MAX_TOKENS_EXEC = 1700
+
+# ----------------- Flask -----------------
+app = Flask(__name__)
+app.secret_key = APP_SECRET
+
+# ----------------- OpenAI -----------------
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY"),
+    organization=os.getenv("OPENAI_ORG_ID")
+)
+
+# ----------------- In-memory storage -----------------
+storage = {}
+
+# ----------------- DB Helpers -----------------
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS companies (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            industry TEXT,
+            services TEXT,
+            differentiators TEXT,
+            contact_email TEXT,
+            contact_phone TEXT,
+            website TEXT,
+            notes TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+def insert_company(profile):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute(
+        """INSERT INTO companies 
+        (name, industry, services, differentiators, contact_email, contact_phone, website, notes) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+        (profile.get("name"), profile.get("industry"), profile.get("services"),
+         profile.get("differentiators"), profile.get("contact_email"), profile.get("contact_phone"),
+         profile.get("website"), profile.get("notes"))
+    )
+    conn.commit()
+    company_id = cur.lastrowid
+    conn.close()
+    return company_id
+
+def get_companies():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("SELECT id, name, industry FROM companies ORDER BY name")
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+def get_company(company_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""SELECT id, name, industry, services, differentiators, contact_email, 
+                   contact_phone, website, notes 
+                   FROM companies WHERE id = ?""", (company_id,))
+    row = cur.fetchone()
+    conn.close()
+    if not row:
+        return None
+    keys = ["id", "name", "industry", "services", "differentiators", 
+            "contact_email", "contact_phone", "website", "notes"]
+    return dict(zip(keys, row))
+
+# ----------------- Text cleaning -----------------
+def clean_text_block(text: str) -> str:
+    if not text:
+        return ""
+    text = str(text)
+    text = re.sub(r"\*\*(.*?)\*\*", r"\1", text)
+    text = re.sub(r"\*(.*?)\*", r"\1", text)
+    text = re.sub(r"^#+\s*", "", text, flags=re.MULTILINE)
+    text = re.sub(r"•\s*", "- ", text, flags=re.MULTILINE)
+    text = re.sub(r"\r\n", "\n", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+# ----------------- Prompt scaffolds -----------------
+# Vocabulary seeds inspired by your GBT template (governance/risk/proof)
+SEED_DELIVERY = [
+    "structured delivery methodology", "governance model", "formal review cadence",
+    "risk mitigation strategy", "phased rollout", "Build–Operate–Transfer model",
+    "joint ownership", "transition readiness", "operational handover"
+]
+# Seeds from EDT for quantification & value mapping
+SEED_VALUE = [
+    "hard, tangible outcomes", "first-year value", "EBITDA impact",
+    "operating cost reduction", "working capital improvements", "time-to-value"
+]
+
+# Executive sections we’ll generate separately
+EXEC_SECTIONS = [
+    "Introduction",
+    "Our Understanding of Your Goals",
+    "Our Approach to Meeting Your Goals",
+    "Solution Overview",
+    "How We Will Deliver",
+    "Why {provider_name}",
+    "Closing Call-to-Action"
+]
+
+EXEC_SECTION_RULES = {
+    "Introduction": {
+        "bullets": False,
+        "seeds": [],
+    },
+    "Our Understanding of Your Goals": {
+        "bullets": False,
+        "seeds": ["opportunity", "readiness", "potential", "industry trends", "value drivers", "business urgency"],
+    },
+    "Our Approach to Meeting Your Goals": {
+        "bullets": True,
+        "seeds": SEED_VALUE,
+    },
+    "Solution Overview": {
+        "bullets": True,
+        "seeds": ["solution modules", "time-to-value", "integration", "interoperability"],
+    },
+    "How We Will Deliver": {
+        "bullets": True,
+        "seeds": SEED_DELIVERY,
+    },
+    "Why {provider_name}": {
+        "bullets": True,
+        "seeds": ["client references", "testimonials", "benchmarks", "security-first", "domain expertise", "scalability"],
+    },
+    "Closing Call-to-Action": {
+        "bullets": False,
+        "seeds": ["next steps", "pilot", "timeline", "stakeholder alignment"],
+    },
+}
+
+SECTION_PROMPT = """
+You are a senior management consultant. Write the section titled: "{section_title}".
+
+Constraints:
+- Plain text only (no Markdown, no numbering or symbols other than "-" for bullets if bullets=True).
+- Tone: executive, persuasive, value-focused.
+- Reuse at least TWO exact phrases from the VSP.
+- Reflect the provider profile and client context faithfully; do not invent facts.
+- Where quantification is appropriate but data is missing, use bounded indicative ranges (e.g., "10–20%") and clearly frame them as typical/indicative insights for the client's industry.
+- If bullets=True, make every bullet a business promise tied to an outcome.
+
+Seeds to weave naturally (not as a list): {seed_terms}
+
+Inputs:
+- PROVIDER_PROFILE:
+{provider_profile}
+
+- VSP:
+{vsp}
+
+- CLIENT_CONTEXT:
+{client_context}
+
+- Website:
+{website}
+
+Output length guidance:
+- Intro: 2–3 sentences concise.
+- Goals: 2 short paragraphs.
+- Approach: 4–6 bullets.
+- Solution Overview: 4–6 bullets (modules/outcomes).
+- Delivery: 3–5 bullets (governance, risk, phases, BOT if apt).
+- Why {provider_name}: 4–6 bullets (differentiators + proof-leaning language).
+- Closing: 2–3 sentences with a clear next step.
+"""
+
+
+# ----------------- OpenAI helpers -----------------
+def call_openai(messages, temperature=0.9, max_tokens=1200):
+    return client.chat.completions.create(
+        model=OPENAI_MODEL,
+        messages=messages,
+        temperature=temperature,
+        max_completion_tokens=max_tokens
+    )
+
+def generate_vsp(company, provider_profile_text, client_context):
+    vsp_prompt = f"""
+You are a senior management consultant. Based on the provider profile and client context,
+generate a Value Selling Points (VSP) document.
+
+Guidelines:
+- Plain text only (no Markdown, no symbols).
+- Each bullet must be a strong business phrase (1–2 lines).
+- Structure exactly:
+
+Case for Change
+- ...
+Business Value for the Client
+- ...
+{company['name']} Proposed Solution
+- ...
+
+Inputs:
+PROVIDER_PROFILE:
+{provider_profile_text}
+
+CLIENT_CONTEXT:
+{client_context}
+"""
+    try:
+        vsp_resp = call_openai(
+            messages=[
+                {"role": "system", "content": "You are an expert proposal writer."},
+                {"role": "user", "content": vsp_prompt}
+            ],
+            temperature=TEMPERATURE_VSP,
+            max_tokens=MAX_TOKENS_VSP
+        )
+        vsp_text = clean_text_block(vsp_resp.choices[0].message.content.strip())
+    except Exception as e:
+        vsp_text = f"VSP generation failed: {e}"
+    return vsp_text
+
+def generate_section(title, provider_profile, vsp, client_context, provider_name, website, lookup_key=None):
+    key = lookup_key if lookup_key else title
+    seeds = EXEC_SECTION_RULES[key]["seeds"]
+    seed_terms = ", ".join(seeds)
+    prompt = SECTION_PROMPT.format(
+        section_title=title.replace("{provider_name}", provider_name),
+        seed_terms=seed_terms,
+        provider_profile=provider_profile,
+        vsp=vsp,
+        client_context=client_context,
+        website=website,
+        provider_name=provider_name
+    )
+    bullets = EXEC_SECTION_RULES[key]["bullets"]   # ✅ use lookup key, not real title
+
+    sys = "You are a senior management consultant writing client-ready executive summaries with sharp, business-first language."
+    user = prompt + f"\nContext: bullets={'True' if bullets else 'False'}"
+    try:
+        resp = call_openai(
+            messages=[{"role": "system", "content": sys},
+                      {"role": "user", "content": user}],
+            temperature=TEMPERATURE_EXEC,
+            max_tokens=MAX_TOKENS_EXEC
+        )
+        text = clean_text_block(resp.choices[0].message.content.strip())
+        return text
+    except Exception as e:
+        return f"[{title}] generation failed: {e}"
+
+def stitch_sections(provider_name, sections_map):
+    order = [
+        "Introduction",
+        "Our Understanding of Your Goals",
+        "Our Approach to Meeting Your Goals",
+        "Solution Overview",
+        "How We Will Deliver",
+        f"Why {provider_name}",
+        "Closing Call-to-Action"
+    ]
+    out = []
+    for key in order:
+        out.append(key)
+        out.append(sections_map.get(key, "").strip())
+        out.append("")  # blank line
+    return "\n".join(out).strip()
+
+# ----------------- Routes -----------------
+@app.route("/setup", methods=["GET", "POST"])
+def setup():
+    if request.method == "POST":
+        profile = {
+            "name": request.form.get("name", "").strip(),
+            "industry": request.form.get("industry", "").strip(),
+            "services": request.form.get("services", "").strip(),
+            "differentiators": request.form.get("differentiators", "").strip(),
+            "contact_email": request.form.get("contact_email", "").strip(),
+            "contact_phone": request.form.get("contact_phone", "").strip(),
+            "website": request.form.get("website", "").strip(),
+            "notes": request.form.get("notes", "").strip()
+        }
+        # mandatory: name already required in template; also validate minimally here
+        if not profile["name"]:
+            flash("Company name is required", "warning")
+            return render_template("setup.html", profile=profile)
+        company_id = insert_company(profile)
+        flash(f"Company profile '{profile['name']}' created.", "success")
+        return redirect(url_for("index", company_id=company_id))
+    return render_template("setup.html")
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    companies = get_companies()
+    default_company_id = request.args.get("company_id")
+
+    if request.method == "POST":
+        # ---------- Mandatory field checks ----------
+        errors = []
+        try:
+            company_id = int(request.form.get("company_id"))
+        except Exception:
+            company_id = None
+        if not company_id:
+            errors.append("Please select a provider.")
+        client_name = request.form.get("client_name", "").strip()
+        if not client_name:
+            errors.append("Client Name is required.")
+        client_industry = request.form.get("client_industry", "").strip()
+        if not client_industry:
+            errors.append("Client Industry is required.")
+        client_goals = request.form.get("client_goals", "").strip()
+        if not client_goals:
+            errors.append("Client Goals / Challenges are required.")
+        proposal_modules = request.form.get("proposal_modules", "").strip()
+        if not proposal_modules:
+            errors.append("Proposed Solutions / Modules are required.")
+        execution_model = request.form.get("execution_model", "").strip()
+        extra_notes = request.form.get("extra_notes", "").strip()
+
+        if errors:
+            for e in errors:
+                flash(e, "warning")
+            return render_template("index.html", companies=companies, default_company_id=default_company_id)
+
+        company = get_company(company_id)
+        if not company:
+            flash("Selected company not found.", "danger")
+            return redirect(url_for("setup"))
+
+        client_context = f"""
+Client Name: {client_name}
+Client Industry: {client_industry}
+Goals/Challenges: {client_goals}
+Proposed Modules: {proposal_modules}
+Execution Model: {execution_model}
+Additional Notes: {extra_notes}
+""".strip()
+
+        session_id = os.urandom(8).hex()
+        session["id"] = session_id
+        storage[session_id] = {"client_context": client_context, "draft": "", "vsp": "", "company_id": company_id}
+
+        provider_profile_text = f"{company['name']} (Industry: {company['industry']}). Services: {company['services']}. Differentiators: {company['differentiators']}. Website: {company['website']}. Contact: {company['contact_email']} | {company['contact_phone']}."
+
+        # ✅ Generate VSP first
+        vsp_text = generate_vsp(company, provider_profile_text, client_context)
+        storage[session_id]["vsp"] = vsp_text
+        
+        prov = company.get('name', 'Provider')
+        client = client_name if client_name else "the client"
+
+        FORMAL_CTA_TEMPLATE = f"""
+    {prov} recommends moving forward with a phased engagement to realize measurable operational efficiencies within the first year.
+    We are prepared to initiate governance reviews, align executive stakeholders, and formalize next steps to ensure {client} achieves
+    sustainable improvements in patient satisfaction, cost efficiency, and compliance readiness.
+    """.strip()
+        # ✅ Generate each section separately with seeds + constraints
+        sections = {}
+        for title in EXEC_SECTIONS:
+            real_title = title.replace("{provider_name}", company['name'])
+            lookup_key = title
+
+            if "Closing Call-to-Action" in real_title:
+                sections[real_title] = FORMAL_CTA_TEMPLATE
+            else:
+                sec_text = generate_section(
+                    real_title,
+                    provider_profile_text,
+                    vsp_text,
+                    client_context,
+                    company['name'],
+                    company["website"],
+                    lookup_key=lookup_key
+                )
+                sections[real_title] = sec_text
+
+
+        draft = stitch_sections(company['name'], sections)
+        storage[session_id]["draft"] = draft
+
+        return redirect(url_for("result"))
+
+    return render_template("index.html", companies=companies, default_company_id=default_company_id)
+
+# ----------------- Result Route -----------------
+@app.route("/result", methods=["GET", "POST"])
+def result():
+    session_id = session.get("id")
+    if not session_id or session_id not in storage:
+        flash("No active proposal found. Please generate one.", "warning")
+        return redirect(url_for("index"))
+
+    data = storage[session_id]
+    draft = data.get("draft", "")
+    vsp = data.get("vsp", "")
+    client_context = data.get("client_context", "")
+    company_id = data.get("company_id")
+    company = get_company(company_id) if company_id else None
+
+    if request.method == "POST":
+
+        # ---------- Refine ----------
+        if "refine" in request.form:
+            refine_input = request.form.get("refine_prompt", "").strip()
+            if not refine_input:
+                flash("Refine instructions cannot be empty.", "warning")
+                return render_template("result.html", draft=draft, vsp=vsp,
+                                       context=client_context, company=company, show_vsp=VSP_VISIBLE_IN_UI)
+
+            refine_prompt = f"""
+Refine the Executive Summary below using these exact instructions:
+{refine_input}
+
+Executive Summary:
+{draft}
+
+Rules:
+- Keep section order intact.
+- Maintain VSP phrasing by reusing at least 2 VSP phrases per section.
+- Use '-' for bullets where bullets already exist.
+- Prefer quantified ranges where appropriate (indicative, not fabricated).
+- Plain text only.
+VSP:
+{vsp}
+"""
+            try:
+                refine_resp = call_openai(
+                    messages=[
+                        {"role": "system", "content": "You are a professional consultant refining executive summaries with sharp, outcome-focused language."},
+                        {"role": "user", "content": refine_prompt}
+                    ],
+                    temperature=TEMPERATURE_EXEC,
+                    max_tokens=MAX_TOKENS_EXEC
+                )
+                draft = clean_text_block(refine_resp.choices[0].message.content.strip())
+                storage[session_id]["draft"] = draft
+            except Exception as e:
+                flash(f"Refine failed: {e}", "danger")
+
+        # ---------- Download ----------
+        elif "download" in request.form:
+            doc = Document()
+            doc.add_heading(f"Executive Summary by {company['name'] if company else 'Provider'}", level=0)
+
+            # -------- Executive Summary --------
+            current_title = None
+            for rawline in draft.split("\n"):
+                line = rawline.rstrip()
+                if not line:
+                    continue
+                lower = line.lower()
+                # Recognize headings exactly as our stitcher uses
+                if lower.startswith("introduction"):
+                    current_title = "Introduction"
+                elif lower.startswith("our understanding"):
+                    current_title = "Our Understanding of Your Goals"
+                elif lower.startswith("our approach"):
+                    current_title = "Our Approach to Meeting Your Goals"
+                elif lower.startswith("solution overview"):
+                    current_title = "Solution Overview"
+                elif lower.startswith("how we will deliver"):
+                    current_title = "How We Will Deliver"
+                elif lower.startswith("why"):
+                    current_title = f"Why {company['name'] if company else 'Provider'}"
+                elif lower.startswith("closing"):
+                    current_title = "Closing Call-to-Action"
+                else:
+                    current_title = None
+
+                if current_title:
+                    para = doc.add_paragraph(current_title)
+                    run = para.runs[0]
+                    run.bold = True
+                    run.font.size = Pt(14)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    para.paragraph_format.space_after = Pt(8)
+                    continue
+
+                if line.startswith("- "):  # Bullet
+                    para = doc.add_paragraph(line[2:], style="List Bullet")
+                    para.paragraph_format.space_after = Pt(4)
+                else:
+                    para = doc.add_paragraph(line)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    para.paragraph_format.space_after = Pt(10)
+
+            # -------- Contact Info --------
+            doc.add_heading("Contact Information", level=1)
+            if company:
+                contact_block = [
+                    f"Email: {company.get('contact_email', 'N/A')}",
+                    f"Phone: {company.get('contact_phone', 'N/A')}",
+                    f"Website: {company.get('website', 'N/A')}"
+                ]
+                for item in contact_block:
+                    para = doc.add_paragraph(item)
+                    para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                    para.paragraph_format.space_after = Pt(4)
+
+            # -------- VSP Section (optional) --------
+            if not HIDE_VSP_FROM_DOCX and vsp.strip():
+                doc.add_page_break()
+                doc.add_heading(f"Value Selling Points by {company['name'] if company else 'Provider'}", level=0)
+                for rawline in vsp.split("\n"):
+                    line = rawline.rstrip()
+                    if not line:
+                        continue
+                    lower = line.lower()
+                    if lower.startswith("case for change"):
+                        title = "Case for Change"
+                    elif lower.startswith("business value"):
+                        title = "Business Value for the Client"
+                    elif (company and lower.startswith(company['name'].lower())) or lower.startswith("proposed solution"):
+                        title = f"{company['name']} Proposed Solution" if company else "Proposed Solution"
+                    else:
+                        title = None
+
+                    if title:
+                        para = doc.add_paragraph(title)
+                        run = para.runs[0]
+                        run.bold = True
+                        run.font.size = Pt(14)
+                        para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                        para.paragraph_format.space_after = Pt(8)
+                        continue
+
+                    if line.startswith("- "):
+                        para = doc.add_paragraph(line[2:], style="List Bullet")
+                        para.paragraph_format.space_after = Pt(4)
+                    else:
+                        para = doc.add_paragraph(line)
+                        para.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                        para.paragraph_format.space_after = Pt(8)
+
+            # -------- Save File --------
+            tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".docx")
+            doc.save(tmp_file.name)
+            return send_file(tmp_file.name, as_attachment=True, download_name="Executive_Summary.docx")
+
+        # ---------- Finish ----------
+        elif "finish" in request.form:
+            storage.pop(session_id, None)
+            session.clear()
+            flash("Session cleared.", "info")
+            return redirect(url_for("index"))
+
+    return render_template("result.html", draft=draft, vsp=vsp,
+                           context=client_context, company=company, show_vsp=VSP_VISIBLE_IN_UI)
+
+if __name__ == "__main__":
+    init_db()
+    app.run(debug=True, host="0.0.0.0", port=5000)
+

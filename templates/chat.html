@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Executive Summary Assistant</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f4f6fb;
+      margin: 0;
+      padding: 0;
+    }
+    .chat-container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      height: 85vh;
+      overflow: hidden;
+    }
+    .chat-header {
+      padding: 15px;
+      background: #4f46e5;
+      color: white;
+      font-weight: 600;
+      text-align: center;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      font-size: 18px;
+    }
+    .chat-box {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .msg {
+      padding: 12px 18px;
+      border-radius: 20px;
+      margin: 6px 0;
+      max-width: 75%;
+      word-wrap: break-word;
+      line-height: 1.4;
+    }
+    .msg.user {
+      background: #e0e7ff;
+      align-self: flex-start;
+    }
+    .msg.ai {
+      background: #4f46e5;
+      color: white;
+      align-self: flex-end;
+    }
+    .chat-input {
+      display: flex;
+      padding: 15px;
+      border-top: 1px solid #eee;
+      background: #fafafa;
+    }
+    .chat-input input {
+      flex: 1;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      padding: 10px 15px;
+      outline: none;
+    }
+    .chat-input button {
+      margin-left: 10px;
+      border-radius: 20px;
+      background: #4f46e5;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+    }
+    .download-btn {
+      text-align: center;
+      padding: 10px;
+      border-top: 1px solid #eee;
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">💬 Executive Summary Assistant</div>
+    
+    <!-- Chat window -->
+    <div class="chat-box">
+      {% for sender, message in messages %}
+        <div class="msg {{ sender }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    
+    <!-- Input area -->
+    <form method="post" class="chat-input">
+      <input type="text" name="refine_prompt" placeholder="Type instructions to refine the summary..." required>
+      <button type="submit" name="refine">Send</button>
+    </form>
+
+    <!-- Download button -->
+    <div class="download-btn">
+      <form method="post">
+        <button type="submit" name="download" class="btn btn-outline-secondary">⬇ Download Executive Summary</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
