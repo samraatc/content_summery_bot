@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  content-summary-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: content-summary-bot
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=app1.py
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+    env_file:
+      - .env
+    volumes:
+      # Mount the database file to persist data
+      - ./companies.db:/app/companies.db
+      # Mount the entire project for development (optional)
+      - .:/app
+    restart: unless-stopped
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:

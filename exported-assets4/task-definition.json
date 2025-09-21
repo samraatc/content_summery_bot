@@ -1,0 +1,64 @@
+{
+    "family": "content-summary-bot-task",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "512",
+    "memory": "1024",
+    "executionRoleArn": "arn:aws:iam::{ACCOUNT_ID}:role/ecsTaskExecutionRole",
+    "taskRoleArn": "arn:aws:iam::{ACCOUNT_ID}:role/ecsTaskRole",
+    "containerDefinitions": [
+        {
+            "name": "content-summary-bot",
+            "image": "{ECR_REPOSITORY_URI}:latest",
+            "portMappings": [
+                {
+                    "containerPort": 5000,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "FLASK_APP",
+                    "value": "app1.py"
+                },
+                {
+                    "name": "FLASK_ENV",
+                    "value": "production"
+                }
+            ],
+            "secrets": [
+                {
+                    "name": "OPENAI_API_KEY",
+                    "valueFrom": "arn:aws:secretsmanager:{REGION}:{ACCOUNT_ID}:secret:content-summary-bot/openai-api-key:OPENAI_API_KEY::"
+                },
+                {
+                    "name": "OPENAI_ORG_ID",
+                    "valueFrom": "arn:aws:secretsmanager:{REGION}:{ACCOUNT_ID}:secret:content-summary-bot/openai-org-id:OPENAI_ORG_ID::"
+                },
+                {
+                    "name": "FLASK_SECRET",
+                    "valueFrom": "arn:aws:secretsmanager:{REGION}:{ACCOUNT_ID}:secret:content-summary-bot/flask-secret:FLASK_SECRET::"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/content-summary-bot",
+                    "awslogs-region": "{REGION}",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "healthCheck": {
+                "command": [
+                    "CMD-SHELL",
+                    "curl -f http://localhost:5000/ || exit 1"
+                ],
+                "interval": 30,
+                "timeout": 5,
+                "retries": 3,
+                "startPeriod": 60
+            }
+        }
+    ]
+}
